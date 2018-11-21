@@ -2,7 +2,7 @@ import {expect}      from 'chai'
 import {Note, Piano} from './../src'
 
 const piano = new Piano()
-const c = new Note('c')
+const c = new Note({note:'c'})
 
 describe('Note Object', () => {
     it('checks properties', () => {
@@ -13,7 +13,7 @@ describe('Note Object', () => {
         expect(c.lang).to.eql('b')
         expect(c.index).to.eql(0)
         expect(c.toString()).to.eql('C3')
-        expect(c.isEqual(new Note('c'))).to.true
+        expect(c.isEqual(new Note({note:'c'}))).to.true
     })
 
     describe('checks intervals', () => {
@@ -40,7 +40,7 @@ describe('Note Object', () => {
             expect(c.getInterval(13)).to.eql(c_stub['13'])
         })
         it('checks the note Db', function () {
-            const db      = new Note('db')
+            const db      = new Note({note:'db'})
             const db_stub = {
                 '-13': piano.note('c2q'),
                 '-12': piano.note('db2q'),
@@ -64,7 +64,7 @@ describe('Note Object', () => {
         })
 
         it('checks the note cs', function () {
-            const cs      = new Note('c#')
+            const cs      = new Note({note:'c#'})
             const cs_stub = {
                 '-13': piano.note('c2q'),
                 '-12': piano.note('c#2q'),
@@ -88,7 +88,7 @@ describe('Note Object', () => {
         })
 
         it('checks the note g', function () {
-            const g      = new Note('g')
+            const g      = new Note({note:'g'})
             const g_stub = {
                 '-13': piano.note('f#2q'),
                 '-12': piano.note('g2q'),
@@ -112,7 +112,7 @@ describe('Note Object', () => {
         })
 
         it('checks the note b', function () {
-            const b      = new Note('b')
+            const b      = new Note({note:'b'})
             const b_stub = {
                 '-13': piano.note('a#2q'),
                 '-12': piano.note('b2q'),

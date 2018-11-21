@@ -51,7 +51,7 @@ export class Chord {
                 instrument: fifth.instrument,
             })
         } else {
-            fifth = new Note({note: fifth.note, octave: root.octave, duration:third.duration, instrument: third.instrument})
+            fifth = new Note({note: fifth.note, octave: root.octave, duration:this.duration, instrument: third.instrument})
         }
         if (root.getInterval(4).note === third.note) {
             if (root.getInterval(7).note === fifth.note) {
