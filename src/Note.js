@@ -1,32 +1,36 @@
 import path from 'path'
-import {firstToUpper, notes,
-    circle_of_fourths,
-    semitone} from '.'
 import {
-    Howl
-} from 'howler'
+    firstToUpper, notes,
+    circle_of_fourths,
+    semitone,
+}           from '.'
+import {
+    Howl,
+}           from 'howler'
+
 const sounds = new Map()
+
 /**
  * Represents a single musical note.
  * @class
  */
 export class Note {
     /**
-     * @param {String} note Musical Note
-     * @param {number} octave Note Octave
-     * @param {String} duration Note duration
-     * @param {String} instrument Piano/Guitar/etc...
+     * @param {Object} attributes Object that contains some or all of the following keys:
+     * {String} note Musical Note
+     * {number} octave Note Octave
+     * {String} duration Note duration
+     * {String} instrument Piano/Guitar/etc...
      * @constructor
      */
-    constructor(note = "A", octave = 3, duration = 'q', instrument = 'Piano') {
-        note = firstToUpper(note)
-        note = !notes["#"].includes(note) && !notes.b.includes(note) ? "A" : note
-        this._octave = octave
-        this._duration = duration
-        this._lang = circle_of_fourths.includes(note) ? "b" : "#"
-        this._index = notes[this.lang].indexOf(note)
-        this._note = note
-        this.instrument = instrument
+    constructor(attributes = {}) {
+        const note      = attributes.note ? firstToUpper(attributes.note) : 'A'
+        this._note      = !notes['#'].includes(note) && !notes.b.includes(note) ? 'A' : note
+        this._octave    = attributes.octave >= 0 && attributes.octave <= 7 ? attributes.octave : 3
+        this._duration  = attributes.duration || 'q'
+        this._lang      = circle_of_fourths.includes(this.note) ? 'b' : '#'
+        this._index     = notes[this.lang].indexOf(this.note)
+        this.instrument = attributes.instrument || 'Piano'
         Note.setSound(this)
     }
 
@@ -36,10 +40,11 @@ export class Note {
         if (!sounds.has(key)) {
             const filePath = '/static/Media/' + note.instrument + '/' + 'FF_' + notes['b'][notes[note.lang].indexOf(note.note)] + note._octave + '.mp3'
             sounds.set(key, new Howl({
-                src: [filePath]
+                src: [filePath],
             }))
         }
     }
+
     /**
      * returns the note alphabet representation as a string.
      * @type {String}
@@ -48,6 +53,7 @@ export class Note {
     get note() {
         return this._note
     }
+
     /**
      * get octave of note.
      * @type {Number}
@@ -56,6 +62,7 @@ export class Note {
     get octave() {
         return this._octave
     }
+
     /**
      * get the duration of a note
      * @type {String}
@@ -64,6 +71,7 @@ export class Note {
     get duration() {
         return this._duration
     }
+
     /**
      * get the frequancy of a note.
      * @type {Number}
@@ -80,7 +88,7 @@ export class Note {
     }
 
     // set whether note is in '#' or 'b' family
-    set lang(l){
+    set lang(l) {
         this._lang = (l == '#' || l == 'b') ? l : this._lang
     }
 
@@ -88,12 +96,14 @@ export class Note {
     get index() {
         return this._index
     }
+
     /**
      * returns a clone of the note(new instance).
      */
     clone() {
-        return (new Note(this.note, this.octave, this.duration, this.instrument))
+        return (new Note({note: this.note, octave: this.octave, duration: this.duration, instrument: this.instrument}))
     }
+
     /**
      * gets a number as interval and returns a new instance of a note
      * which is constructed by the musical interval formula.
@@ -103,13 +113,24 @@ export class Note {
      * @param {number} interval Musical Interval
      */
     getInterval(interval) {
-        if(interval >= 0){
+        if (interval >= 0) {
             const oct_diff = (this.index + interval) / 12
-            return new Note(notes[this.lang][(this.index + interval) % 12], this.octave + parseInt(oct_diff), this.duration, this.instrument)
+            return new Note({
+                note:       notes[this.lang][(this.index + interval) % 12],
+                octave:     this.octave + parseInt(oct_diff),
+                duration:   this.duration,
+                instrument: this.instrument,
+            })
         }
         const oct_diff = this.index + interval < 0 ? Math.floor((this.index + interval) / 12) : 0
-        return new Note(notes[this.lang][Math.abs((this.index + (12 + (interval%12)))%12)], parseInt(this.octave) + parseInt(oct_diff), this.duration, this.instrument)
+        return new Note({
+            note:       notes[this.lang][Math.abs((this.index + (12 + (interval % 12))) % 12)],
+            octave:     parseInt(this.octave) + parseInt(oct_diff),
+            duration:   this.duration,
+            instrument: this.instrument,
+        })
     }
+
     // getMajorChord() {
     //     return new Chord(this, this.getInterval(4), this.getInterval(7))
     // }
@@ -120,6 +141,7 @@ export class Note {
         }
         return toString(scale)
     }
+
     /**
      * Returns the note name and octave.
      * @example
@@ -128,28 +150,33 @@ export class Note {
     toString() {
         return this.note + this.octave
     }
+
     /**
      * Check if 2 notes are equal in letter and octave.
      * @param {Note} note
      */
     isEqual(note) {
-        if (this.note === note.note && this.octave === note.octave)
+        if (this.note === note.note && this.octave === note.octave) {
             return true
+        }
         return false
     }
+
     /**
      * Returns string of the note fields formatted as an object.
      */
     print() {
-        return '{Note: ' + this.note + ', Octave: ' + this._octave +  '}'
+        return '{Note: ' + this.note + ', Octave: ' + this._octave + '}'
     }
+
     /**
      * Play the note.
      */
     play() {
-        if (sounds.get(this.instrument + notes['b'][notes[this.lang].indexOf(this.note)] + this._octave) instanceof Howl)
+        if (sounds.get(this.instrument + notes['b'][notes[this.lang].indexOf(this.note)] + this._octave) instanceof Howl) {
             sounds.get(this.instrument + notes['b'][notes[this.lang].indexOf(this.note)] + this._octave).play()
-        else
+        } else {
             console.log('Sound not loaded! please make sure you load with x.loadSound()')
+        }
     }
 }

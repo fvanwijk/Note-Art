@@ -14,24 +14,44 @@ export class Chord {
      * @param {Note} note4(optional)
      * @param duration
      */
-    constructor(root, third, fifth, note4 = null, duration = 'q') {
-        this._duration = duration
+    constructor(attributes = {}) {
+        this._duration = attributes.duration || 'q'
         this.isChord   = true
-        if (!(root instanceof Note)) {
-            root  = new Note(root)
-            third = new Note(third)
-            fifth = new Note(fifth)
-            note4 = note4 ? new Note(note4) : null
+        let root = attributes.root,
+            third = attributes.third || null,
+            fifth = attributes.fifth || null,
+            note4 = attributes.note4 || null
+        if (!(attributes.root instanceof Note)) {
+            root  = new Note({note: attributes.root})
+            third = third ? new Note({note: third}) : null
+            fifth = fifth ? new Note({note: fifth}) : null
+            note4 = note4 ? new Note({note: note4}) : null
         }
+        if(third)
         if (root.index > third.index) {
-            third = new Note(third.note, root.octave + 1, third.duration, third.instrument)
+            third = new Note({
+                note:       third.note,
+                octave:     root.octave + 1,
+                duration:   third.duration,
+                instrument: third.instrument,
+            })
         } else {
-            third = new Note(third.note, root.octave, third.duration, third.instrument)
+            third = new Note({
+                note:       third.note,
+                octave:     root.octave,
+                duration:   third.duration,
+                instrument: third.instrument,
+            })
         }
         if (root.index > fifth.index) {
-            fifth = new Note(fifth.note, root.octave + 1, fifth.duration, fifth.instrument)
+            fifth = new Note({
+                note:       fifth.note,
+                octave:     root.octave + 1,
+                duration:   fifth.duration,
+                instrument: fifth.instrument,
+            })
         } else {
-            fifth = new Note(fifth.note, root.octave, third.duration, third.instrument)
+            fifth = new Note({note: fifth.note, octave: root.octave, duration:third.duration, instrument: third.instrument})
         }
         if (root.getInterval(4).note === third.note) {
             if (root.getInterval(7).note === fifth.note) {
@@ -234,6 +254,6 @@ export class Chord {
     }
 
     newDuration(duration) {
-        return new Chord(this.root, this.third, this.fifth, this.note4, this.note5, duration)
+        return new Chord({root: this.root, third: this.third, fifth: this.fifth,note4: this.note4, duration: duration})
     }
 }

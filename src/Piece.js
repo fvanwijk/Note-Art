@@ -1,20 +1,23 @@
 import {Note, Rhythm, Sequence, Measure, Chord, note_durations} from '.'
 import {
-    isArray
-} from 'util'
+    isArray,
+}                                                               from 'util'
+
 export class Piece {
     constructor(BPM, time_signature, data) {
-        this._BPM = BPM
+        this._BPM            = BPM
         this._time_signature = time_signature
-        this.rhythm = Rhythm.getRhythm(BPM, time_signature)
-        if (data)
+        this.rhythm          = Rhythm.getRhythm(BPM, time_signature)
+        if (data) {
             this._data = data
-        else
+        } else {
             this._data = []
+        }
         this.init()
     }
-    init(){
-        this.duration = 0
+
+    init() {
+        this.duration      = 0
         this.playable_data = new Array()
         for (const i of this.data) {
             if (i instanceof Measure || i instanceof Sequence) {
@@ -29,33 +32,40 @@ export class Piece {
         }
         this.length = this.calculateLength()
     }
+
     get data() {
         return this._data
     }
+
     set data(data) {
         this._data = data
         this.init()
     }
+
     /**
      * get the duration
      */
     get duration() {
         return this._duration
     }
+
     /**
      * set the duration
      */
     set duration(duration) {
         this._duration = duration
     }
+
     get BPM() {
         return this._BPM
     }
+
     set BPM(BPM) {
         this._BPM = BPM
         this.rhythm.updateBPM(BPM)
         this.length = this.calculateLength()
     }
+
     calculateLength() {
         this.length = 0
         this.playable_data.forEach(data => {
@@ -71,19 +81,23 @@ export class Piece {
         })
         return this.length
     }
-play() {
-    this.rhythm.addNotes(this.playable_data)
-    this.rhythm.toggle()
+
+    play() {
+        this.rhythm.addNotes(this.playable_data)
+        this.rhythm.toggle()
+    }
+
+    pushToData(new_data) {
+        this.data.push(new_data)
+    }
+
+    toString() {
+        let string = 'Piece: { '
+        for (let i of this.data)
+            string += i.toString() + ', '
+        string += '} '
+        return string
+    }
 }
-pushToData(new_data) {
-    this.data.push(new_data)
-}
-toString() {
-    let string = "Piece: { "
-    for (let i of this.data)
-        string += i.toString() + ', '
-    string += '} '
-    return string
-}
-}
+
 export default Piece
