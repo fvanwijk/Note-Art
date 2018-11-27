@@ -1,13 +1,20 @@
-import {Note, Rhythm, Sequence, Measure, Chord, note_durations} from '.'
+import {
+    Note,
+    Rhythm,
+    Sequence,
+    Measure,
+    Chord,
+    note_durations
+} from '.'
 import {
     isArray,
-}                                                               from 'util'
+} from 'util'
 
 export class Piece {
     constructor(BPM, time_signature, data) {
-        this._BPM            = BPM
+        this._BPM = BPM
         this._time_signature = time_signature
-        this.rhythm          = Rhythm.getRhythm(BPM, time_signature)
+        this.rhythm = Rhythm.getRhythm(BPM, time_signature)
         if (data) {
             this._data = data
         } else {
@@ -17,19 +24,19 @@ export class Piece {
     }
 
     init() {
-        this.duration      = 0
+        this.duration = 0
         this.playable_data = new Array()
-        for (const i of this.data) {
+        this.data.forEach((i) => {
             if (i instanceof Measure || i instanceof Sequence) {
                 for (const j of i.getData()) {
                     this.playable_data.push(j)
-                    this.duration += note_durations[j.duration]
+                        this.duration += note_durations[j.duration]
                 }
             } else {
                 this.playable_data.push(i)
                 this.duration += note_durations[i.duration]
             }
-        }
+        })
         this.length = this.calculateLength()
     }
 
@@ -98,6 +105,15 @@ export class Piece {
         string += '} '
         return string
     }
+    transpose(interval) {
+        this.data = this.data.map((i) => {
+            if (i instanceof Measure || i instanceof Sequence || i instanceof Chord) {
+                return i.transpose(interval)
+            } else if (i instanceof Note) {
+                return i.getInterval(interval)
+            }
+        })
+        this.init()
+        return this
+    }
 }
-
-export default Piece

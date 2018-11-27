@@ -45,6 +45,11 @@ export class Sequence {
         this.measures.push(measure)
     }
 
+    transpose(interval){
+        this.measures = this.measures.map(m => m.transpose(interval))
+        return this
+    }
+
     toString() {
         let string = 'Sequence: { '
         for (let i of this.measures)

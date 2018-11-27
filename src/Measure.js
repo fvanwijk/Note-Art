@@ -1,7 +1,12 @@
-import {Note, Rhythm, Chord, note_durations} from '.'
+import {
+    Note,
+    Rhythm,
+    Chord,
+    note_durations
+} from '.'
 import {
     isArray,
-}                                            from 'util'
+} from 'util'
 
 /**
  * Measure - represents a single measure as part of a musical piece.
@@ -13,9 +18,9 @@ export class Measure {
      * @param {Array} data An array which contains notes or chords
      */
     constructor(data = [], max_duration = 0) {
-        this._data        = data
+        this._data = data
         this.max_duration = max_duration
-        this._duration    = 0
+        this._duration = 0
         this.updateDuration()
     }
 
@@ -64,7 +69,7 @@ export class Measure {
      */
     mutate(i, new_notes) {
         const newData = JSON.parse(JSON.stringify(this.data))
-        newData[i]    = new_notes
+        newData[i] = new_notes
         return new Measure(newData)
     }
 
@@ -78,7 +83,7 @@ export class Measure {
 
     updateDuration() {
         this.duration = 0
-        let valid     = 0
+        let valid = 0
         for (const notes of this.data) {
             if (notes instanceof Note || notes instanceof Chord) {
                 this.duration += note_durations[notes.duration]
@@ -96,6 +101,18 @@ export class Measure {
             }
         }
         this.data = this.data.slice(0, valid)
+    }
+
+    transpose(interval) {
+        this.data = this.data.map((n) => {
+            if (n instanceof Note) {
+                return n.getInterval(interval)
+            } else if (n instanceof Chord)
+                return n.tranpose(interval)
+            else if (isArray(n))
+                return n.map(note => note.getInterval(interval))
+        })
+        return this
     }
 
     toString() {

@@ -256,4 +256,10 @@ export class Chord {
     newDuration(duration) {
         return new Chord({root: this.root, third: this.third, fifth: this.fifth,note4: this.note4, duration: duration})
     }
+
+    tranpose(interval){
+        for(const n of this.chord_notes)
+            n = n.getInterval(interval)
+        return this
+    }
 }

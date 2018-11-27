@@ -208,6 +208,7 @@ export class Note {
                     this._octave
                 )
                 .play()
+                console.log(this.note)
         } else {
             console.log(
                 "Sound not loaded! please make sure you load with x.loadSound()"
