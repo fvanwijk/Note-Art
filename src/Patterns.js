@@ -28,39 +28,39 @@ const scale_intervals        = [
     'tenth',
     'eleventh',
 ]
-const diatonic_scales        = {
-    'Major':          major_scale,
-    'Minor':          minor_scale,
+const diatonic_scales = {
+    'Major'         : major_scale,
+    'Minor'         : minor_scale,
     'harmonic Minor': Harmonic_Minor_scale,
-    'Melodic Minor':  Melodic_Minor_scale,
-    'Ionian':         Ionian_scale,
-    'Dorian':         Dorian_scale,
-    'Phrygian':       Phrygian_scale,
-    'Lydian':         Lydian_scale,
-    'Mixolydian':     Mixolydian_scale,
-    'Aeolian':        Aeolian_scale,
-    'Locrian':        Locrian_scale,
+    'Melodic Minor' : Melodic_Minor_scale,
+    'Ionian'        : Ionian_scale,
+    'Dorian'        : Dorian_scale,
+    'Phrygian'      : Phrygian_scale,
+    'Lydian'        : Lydian_scale,
+    'Mixolydian'    : Mixolydian_scale,
+    'Aeolian'       : Aeolian_scale,
+    'Locrian'       : Locrian_scale,
 }
-const scales                 = {
-    'Major':                 major_scale,
-    'Minor':                 minor_scale,
-    'harmonic Minor':        Harmonic_Minor_scale,
-    'Melodic Minor':         Melodic_Minor_scale,
-    'Ionian':                Ionian_scale,
-    'Dorian':                Dorian_scale,
-    'Phrygian':              Phrygian_scale,
-    'Lydian':                Lydian_scale,
-    'Mixolydian':            Mixolydian_scale,
-    'Aeolian':               Aeolian_scale,
-    'Locrian':               Locrian_scale,
-    'Major Pentatonic':      Major_pentatonic_scale,
-    'Minor Pentatonic':      Minor_pentatonic_scale,
-    'Whole Tone':            Whole_tone_scale,
+const scales = {
+    'Major'                : major_scale,
+    'Minor'                : minor_scale,
+    'harmonic Minor'       : Harmonic_Minor_scale,
+    'Melodic Minor'        : Melodic_Minor_scale,
+    'Ionian'               : Ionian_scale,
+    'Dorian'               : Dorian_scale,
+    'Phrygian'             : Phrygian_scale,
+    'Lydian'               : Lydian_scale,
+    'Mixolydian'           : Mixolydian_scale,
+    'Aeolian'              : Aeolian_scale,
+    'Locrian'              : Locrian_scale,
+    'Major Pentatonic'     : Major_pentatonic_scale,
+    'Minor Pentatonic'     : Minor_pentatonic_scale,
+    'Whole Tone'           : Whole_tone_scale,
     'Whole Half Diminished': Whole_Half_Diminished,
     'Half Whole Diminished': Half_Whole_Diminished,
 }
 
-const all_scales = require('./Scales.json') //with path
+const all_scales = require('./Scales.json')  //with path
 
 const all_diatonic_scales = []
 for (const s of all_scales)
@@ -79,7 +79,7 @@ const notes             = {
     '#': ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
     'b': ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'],
 }
-const all_notes         = [
+const all_notes = [
     'C',
     'C#',
     'Db',
@@ -100,12 +100,12 @@ const all_notes         = [
 ]
 
 const note_durations = {
-    'w':  1,
-    'h':  1 / 2,
-    'q':  1 / 4,
-    'e':  1 / 8,
-    's':  1 / 16,
-    't':  1 / 32,
+    'w' : 1,
+    'h' : 1 / 2,
+    'q' : 1 / 4,
+    'e' : 1 / 8,
+    's' : 1 / 16,
+    't' : 1 / 32,
     'sf': 1 / 64,
 }
 
@@ -130,7 +130,16 @@ const octave_frequencies = {
 }
 
 export {
-    notes, circle_of_fifths, circle_of_fourths, octave_frequencies,
-    semitone, time_signature_note_types, note_durations, all_notes, note_letters,
-    scale_intervals, all_scales, all_diatonic_scales
+    notes,
+    circle_of_fifths,
+    circle_of_fourths,
+    octave_frequencies,
+    semitone,
+    time_signature_note_types,
+    note_durations,
+    all_notes,
+    note_letters,
+    scale_intervals,
+    all_scales,
+    all_diatonic_scales
 }

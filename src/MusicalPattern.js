@@ -1,4 +1,7 @@
-import {Note, piano} from '.'
+import {
+    Note,
+    piano
+} from '.'
 
 /**
  * Represents a musical pattern.
@@ -13,10 +16,12 @@ export class MusicalPattern {
         if (tonic instanceof Note) {
             this.tonic = tonic
         } else {
-            this.tonic = new Note({note: tonic})
+            this.tonic = new Note({
+                note: tonic
+            })
         }
         this.pattern = pattern
-        this._notes  = []
+        this._notes = []
         for (let j of pattern)
             this._notes.push(this.tonic.getInterval(j))
         this._notes.push(this.tonic.getInterval(12))
