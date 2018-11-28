@@ -56,6 +56,10 @@ export class Piece {
         return this._duration
     }
 
+    get timeSignature(){
+        return this._time_signature
+    }
+
     /**
      * set the duration
      */
@@ -106,14 +110,13 @@ export class Piece {
         return string
     }
     transpose(interval) {
-        this.data = this.data.map((i) => {
+        const newData = this.data.map((i) => {
             if (i instanceof Measure || i instanceof Sequence || i instanceof Chord) {
                 return i.transpose(interval)
             } else if (i instanceof Note) {
                 return i.getInterval(interval)
             }
         })
-        this.init()
-        return this
+        return new Piece(this.BPM, this.time_signature, newData)
     }
 }

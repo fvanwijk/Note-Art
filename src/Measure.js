@@ -104,7 +104,8 @@ export class Measure {
     }
 
     transpose(interval) {
-        this.data = this.data.map((n) => {
+        const newData = this.data.map((n) => {
+            console.log(n)
             if (n instanceof Note) {
                 return n.getInterval(interval)
             } else if (n instanceof Chord)
@@ -112,7 +113,8 @@ export class Measure {
             else if (isArray(n))
                 return n.map(note => note.getInterval(interval))
         })
-        return this
+        console.log(newData)
+        return new Measure(newData)
     }
 
     toString() {

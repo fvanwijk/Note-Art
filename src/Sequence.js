@@ -46,8 +46,8 @@ export class Sequence {
     }
 
     transpose(interval){
-        this.measures = this.measures.map(m => m.transpose(interval))
-        return this
+        const newMeasures = this.measures.map(m => m.transpose(interval))
+        return new Sequence(newMeasures)
     }
 
     toString() {
