@@ -26,22 +26,48 @@ export class Note {
      */
     constructor(attributes = {}) {
         const note = attributes.note ? firstToUpper(attributes.note) : "A"
-        this._note = !notes["#"].includes(note) && !notes.b.includes(note) ? "A" : note
-        this._octave =
+        this.attributes = []
+        this.attributes[0] = !notes["#"].includes(note) && !notes.b.includes(note) ? "A" : note
+        this.attributes[1] =
             attributes.octave >= 0 && attributes.octave <= 7 ? attributes.octave : 3
-        this._duration = attributes.duration || "q"
-        this._lang = circle_of_fourths.includes(this.note) ? "b" : "#"
-        this._index = notes[this.lang].indexOf(this.note)
-        this.instrument = attributes.instrument || "Piano"
+        this.attributes[2] = attributes.duration || "q"
+        this.attributes[3] = attributes.instrument || "Piano"
+        this.attributes[4] = circle_of_fourths.includes(this.note) ? "b" : "#"
+        this.attributes[5] = notes[this.lang].indexOf(this.note)
         Note.setSound(this)
     }
+
+    static get NOTE() {
+        return 0
+    }
+
+    static get OCTAVE() {
+        return 1
+    }
+
+    static get DURATION() {
+        return 2
+    }
+
+    static get INSTRUMENT() {
+        return 3
+    }
+
+    static get LANG() {
+        return 4
+    }
+
+    static get INDEX() {
+        return 5
+    }
+
 
     // gets a note and creates it's active Howl player in the notes hash-table so we can play it
     static setSound(note) {
         const key =
             note.instrument +
             notes["b"][notes[note.lang].indexOf(note.note)] +
-            note._octave
+            note.octave
         if (!sounds.has(key)) {
             const filePath =
                 "https://sean-test-server.herokuapp.com/" +
@@ -49,7 +75,7 @@ export class Note {
                 "/" +
                 "FF_" +
                 notes["b"][notes[note.lang].indexOf(note.note)] +
-                note._octave +
+                note.octave +
                 ".mp3"
             sounds.set(
                 key,
@@ -66,7 +92,7 @@ export class Note {
      * @readonly
      */
     get note() {
-        return this._note
+        return this.attributes[Note.NOTE]
     }
 
     /**
@@ -75,7 +101,7 @@ export class Note {
      * @readonly
      */
     get octave() {
-        return this._octave
+        return this.attributes[Note.OCTAVE]
     }
 
     /**
@@ -84,7 +110,7 @@ export class Note {
      * @readonly
      */
     get duration() {
-        return this._duration
+        return this.attributes[Note.DURATION]
     }
 
     /**
@@ -93,23 +119,27 @@ export class Note {
      * @readonly
      */
     get frequency() {
-        let octave_interval = this._octave - 4 //calculate octave difference
+        let octave_interval = this.octave - 4 //calculate octave difference
         return Math.pow(semitone, this.index - 9 + octave_interval * 12) * 440
+    }
+
+    get instrument() {
+        return this.attributes[Note.INSTRUMENT]
     }
 
     // whether the note is a part of circle of fourths or fifths.
     get lang() {
-        return this._lang
+        return this.attributes[Note.LANG]
     }
 
     // set whether note is in '#' or 'b' family
     set lang(l) {
-        this._lang = l == "#" || l == "b" ? l : this._lang
+        this.attributes[Note.LANG] = l == "#" || l == "b" ? l : this._lang
     }
 
     // returns the index of the note from the 12 notes (C, Db, etc...)
     get index() {
-        return this._index
+        return this.attributes[Note.INDEX]
     }
 
     /**
@@ -187,7 +217,7 @@ export class Note {
      * Returns string of the note fields formatted as an object.
      */
     print() {
-        return "{Note: " + this.note + ", Octave: " + this._octave + "}"
+        return "{Note: " + this.note + ", Octave: " + this.octave + "}"
     }
 
     /**
@@ -198,14 +228,14 @@ export class Note {
             sounds.get(
                 this.instrument +
                 notes["b"][notes[this.lang].indexOf(this.note)] +
-                this._octave
+                this.octave
             ) instanceof Howl
         ) {
             sounds
                 .get(
                     this.instrument +
                     notes["b"][notes[this.lang].indexOf(this.note)] +
-                    this._octave
+                    this.octave
                 )
                 .play()
             console.log(this.note, this.octave)

@@ -15,7 +15,7 @@ export class Piece {
         this._BPM = BPM
         this._time_signature = time_signature
         this.rhythm = Rhythm.getRhythm(BPM, time_signature)
-        if (data) {
+        if (isArray(data)) {
             this._data = data
         } else {
             this._data = []
@@ -24,20 +24,17 @@ export class Piece {
     }
 
     init() {
-        this.duration = 0
         this.playable_data = new Array()
         this.data.forEach((i) => {
             if (i instanceof Measure || i instanceof Sequence) {
-                for (const j of i.getData()) {
+                i.getData().forEach((j) => {
                     this.playable_data.push(j)
-                        this.duration += note_durations[j.duration]
-                }
+                })
             } else {
                 this.playable_data.push(i)
-                this.duration += note_durations[i.duration]
             }
         })
-        this.length = this.calculateLength()
+        this.calculateLength()
     }
 
     get data() {
@@ -56,7 +53,7 @@ export class Piece {
         return this._duration
     }
 
-    get timeSignature(){
+    get timeSignature() {
         return this._time_signature
     }
 

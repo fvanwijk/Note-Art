@@ -1,18 +1,18 @@
 export class Sequence {
-    constructor(measures = []) {
-        this._measures = measures
+    constructor(data = []) {
+        this._data = data
         this._duration = 0
-        this._measures.forEach(meas => {
+        this.data.forEach(meas => {
             this._duration += meas.duration
         })
     }
 
-    get measures() {
-        return this._measures
+    get data() {
+        return this._data
     }
 
-    set measures(measures) {
-        this._measures = measures
+    set data(data) {
+        this._data = data
     }
 
     /**
@@ -30,31 +30,32 @@ export class Sequence {
     }
 
     getData() {
-        const data = new Array()
-        for (const i of this.measures)
-            for (const j of i.data)
-                data.push(j)
+        const data = []
+        this.data.forEach((i) => {
+            i.data.forEach(j => data.push(j))
+        })
         return data
     }
 
     length() {
-        return this._measures.length
+        return this.data.length
     }
 
     addMeasure(measure) {
-        this.measures.push(measure)
+        this.data.push(measure)
     }
 
-    transpose(interval){
-        const newMeasures = this.measures.map(m => m.transpose(interval))
+    transpose(interval) {
+        const newMeasures = this.data.map(m => m.transpose(interval))
         return new Sequence(newMeasures)
     }
 
     toString() {
         let string = 'Sequence: { '
-        for (let i of this.measures)
+        this.data.forEach((i) => {
             string += i.toString() + ', '
-        string += '} '
+        })
+        string += '}'
         return string
     }
 }

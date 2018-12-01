@@ -15,13 +15,15 @@ export class Chord {
      * @param duration
      */
     constructor(attributes = {}) {
-        this._duration = attributes.duration || 'q'
+        this.attributes = []
+        this.attributes[Chord.DURATION] = attributes.duration || 'q'
+        this.attributes[Chord.NOTES] = []
         this.isChord = true
         let root = attributes.root,
             third = attributes.third || null,
             fifth = attributes.fifth || null,
             note4 = attributes.note4 || null
-        if (!(attributes.root instanceof Note)) {
+        if (!(root instanceof Note)) {
             root = new Note({
                 note: attributes.root
             })
@@ -35,7 +37,27 @@ export class Chord {
                 note: note4
             }) : null
         }
-        if (third)
+        if (root instanceof Note)
+            this.attributes[Chord.NOTES][Chord.ROOT] = root
+        if (fifth) {
+            if (root.index > fifth.index) {
+                fifth = new Note({
+                    note: fifth.note,
+                    octave: root.octave + 1,
+                    duration: fifth.duration,
+                    instrument: fifth.instrument,
+                })
+            } else {
+                fifth = new Note({
+                    note: fifth.note,
+                    octave: root.octave,
+                    duration: this.duration,
+                    instrument: third.instrument
+                })
+            }
+            this.attributes[Chord.NOTES][Chord.FIFTH] = fifth
+        }
+        if (third) {
             if (root.index > third.index) {
                 third = new Note({
                     note: third.note,
@@ -51,21 +73,28 @@ export class Chord {
                     instrument: third.instrument,
                 })
             }
-        if (root.index > fifth.index) {
-            fifth = new Note({
-                note: fifth.note,
-                octave: root.octave + 1,
-                duration: fifth.duration,
-                instrument: fifth.instrument,
-            })
-        } else {
-            fifth = new Note({
-                note: fifth.note,
-                octave: root.octave,
-                duration: this.duration,
-                instrument: third.instrument
-            })
+            this.attributes[Chord.NOTES][Chord.THIRD] = third
         }
+
+        if (note4) {
+            if (root.index > third.index) {
+                third = new Note({
+                    note: third.note,
+                    octave: root.octave + 1,
+                    duration: third.duration,
+                    instrument: third.instrument,
+                })
+            } else {
+                third = new Note({
+                    note: third.note,
+                    octave: root.octave,
+                    duration: third.duration,
+                    instrument: third.instrument,
+                })
+            }
+            this.attributes[Chord.NOTES][Chord.NOTE4] = note4
+        }
+
         // Major
         if (root.getInterval(4).note === third.note) {
             // Perfect Fifth
@@ -74,24 +103,24 @@ export class Chord {
                 if (note4 == null) {
                     this.type = 'Major'
                     this.symbol = ''
-                } 
+                }
                 // Not Triad
                 else {
                     // Added Fourth
                     if (root.getInterval(5).note === note4.note) {
                         this.type = 'Added Fourth'
                         this.symbol = 'add4'
-                    } 
+                    }
                     // Added Sixth
                     else if (root.getInterval(9).note === note4.note) {
                         this.type = 'Sixth'
                         this.symbol = '6'
-                    } 
+                    }
                     // Major 7th
                     else if (root.getInterval(11).note === note4.note) {
                         this.type = 'Major 7th'
                         this.symbol = 'Maj7'
-                    } 
+                    }
                     // Seventh
                     else if (root.getInterval(10).note === note4.note) {
                         this.type = 'Seventh'
@@ -145,10 +174,14 @@ export class Chord {
             this.symbol = ''
             this.isChord = false
         }
-        this.chord_notes = [root, third, fifth]
-        if (note4) {
-            this.chord_notes.push(note4)
-        }
+    }
+
+    static get DURATION() {
+        return 0
+    }
+
+    static get NOTES() {
+        return 1
     }
 
     /**
@@ -166,7 +199,7 @@ export class Chord {
      * @readonly
      */
     static get THIRD() {
-        return 1
+        return 2
     }
 
     /**
@@ -175,7 +208,7 @@ export class Chord {
      * @readonly
      */
     static get FIFTH() {
-        return 2
+        return 1
     }
 
     /**
@@ -193,7 +226,8 @@ export class Chord {
      * @readonly
      */
     get root() {
-        return this.chord_notes[Chord.ROOT]
+        console.log(this.attributes[Chord.NOTES])
+        return this.attributes[Chord.NOTES][Chord.ROOT]
     }
 
     /**
@@ -202,7 +236,7 @@ export class Chord {
      * @readonly
      */
     get third() {
-        return this.chord_notes[Chord.THIRD]
+        return this.attributes[Chord.NOTES][Chord.THIRD]
     }
 
     /**
@@ -211,7 +245,7 @@ export class Chord {
      * @readonly
      */
     get fifth() {
-        return this.chord_notes[Chord.FIFTH]
+        return this.attributes[Chord.NOTES][Chord.FIFTH]
     }
 
     /**
@@ -220,7 +254,7 @@ export class Chord {
      * @readonly
      */
     get note4() {
-        return this.chord_notes[Chord.NOTE4]
+        return this.attributes[Chord.NOTES][Chord.NOTE4]
     }
 
     /**
@@ -229,21 +263,22 @@ export class Chord {
      * @readonly
      */
     get duration() {
-        return this._duration
+        return this.attributes[Chord.DURATION]
     }
 
-    get chordName(){
-        return this.root.note+this.symbol
+    get chordName() {
+        return this.root.note + this.symbol
     }
 
+    // TODO ADD A HALPING METHOD THAT WILL PLAY MELODICALLY IN INTERVAL BY CORRECT ORDER 
     /**
      * play all the notes in the chord as a melody.
      */
     playMelody() {
         let self = this
-        for (let i = 0; i < this.chord_notes.length; i++) {
+        for (let i = 0; i < this.attributes[Chord.NOTES].length; i++) {
             setTimeout(function timer() {
-                self.chord_notes[i].play()
+                self.attributes[Chord.NOTES][i].play()
             }, i * 500)
         }
     }
@@ -252,8 +287,8 @@ export class Chord {
      * play all the notes in the chord as a harmony.
      */
     play() {
-        for (let i = 0; i < this.chord_notes.length; i++)
-            this.chord_notes[i].play()
+        for (let i = 0; i < this.attributes[Chord.NOTES].length; i++)
+            this.attributes[Chord.NOTES][i].play()
     }
 
     /**
@@ -307,8 +342,13 @@ export class Chord {
     }
 
     tranpose(interval) {
-        for (const n of this.chord_notes)
-            n = n.getInterval(interval)
-        return this
+        const newChordNotes = this.attributes[Chord.NOTES].map(n => n.getInterval(interval))
+        return new Chord({
+            root: newChordNotes[Chord.ROOT],
+            fifth: newChordNotes[Chord.FIFTH],
+            third: newChordNotes[Chord.THIRD],
+            note4: newChordNotes[Chord.NOTE4],
+            duration: this.duration
+        })
     }
 }

@@ -1,6 +1,5 @@
 import {
     Note,
-    Rhythm,
     Chord,
     note_durations
 } from '.'
@@ -14,13 +13,13 @@ import {
  */
 export class Measure {
     /**
-     *
+     * Creates a Measure instance
      * @param {Array} data An array which contains notes or chords
+     * @param {Number} max_duration Max duration of the measure(decided by time signature)
      */
     constructor(data = [], max_duration = 0) {
         this._data = data
         this.max_duration = max_duration
-        this._duration = 0
         this.updateDuration()
     }
 
@@ -42,9 +41,8 @@ export class Measure {
      * Returns a new array with the same notes.
      */
     getData() {
-        const data = new Array()
-        for (const i of this.data)
-            data.push(i)
+        const data = []
+        this.data.forEach(i =>  data.push(i))
         return data
     }
 
@@ -84,10 +82,10 @@ export class Measure {
     updateDuration() {
         this.duration = 0
         let valid = 0
-        for (const notes of this.data) {
-            if (notes instanceof Note || notes instanceof Chord) {
+        this.data.some((notes) => {
+            if (notes instanceof Note || notes instanceof Chord)
                 this.duration += note_durations[notes.duration]
-            } else if (isArray(notes)) {
+            else {
                 let min_duration = notes[0].duration
                 notes.forEach((note) => {
                     min_duration = min_duration < note_durations[note.duration] ? min_duration : note_durations[note.duration]
@@ -96,10 +94,9 @@ export class Measure {
             }
             if (this.duration <= this.max_duration || this.max_duration === 0) {
                 valid++
-            } else {
-                break
-            }
-        }
+            } else
+                return true
+        })
         this.data = this.data.slice(0, valid)
     }
 

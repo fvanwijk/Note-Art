@@ -59,10 +59,20 @@ describe('Chord class', () => {
             expect(Cmaj.duration).to.eql('q')
         })
     })
-    it('toString', () => {
-        expect(Cmaj.toString()).to.eql('C7 {C3, E3, G3, Bb3}')
-    })
-    it('New duration', () => {
-        expect(Cmaj.newDuration('e').duration).to.eql('e')
+    describe('Checks methods', () => {
+        it('toString', () => {
+            expect(Cmaj.toString()).to.eql('C7 {C3, E3, G3, Bb3}')
+        })
+        it('New duration', () => {
+            expect(Cmaj.newDuration('e').duration).to.eql('e')
+        })
+        it('Transpose', () => {
+            expect(Cmaj.tranpose(1)).to.eql(new Chord({
+                root: piano.note('db3q'),
+                third: piano.note('F3q'),
+                fifth: piano.note('g#3q'),
+                note4: piano.note('B3q')
+            }))
+        })
     })
 })
