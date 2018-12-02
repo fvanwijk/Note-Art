@@ -55,6 +55,5 @@ describe("Measure class", () => {
 
         expect(ms_test.transpose(1)).to.eql(stub)
         expect(ms_test.transpose(1).transpose(-1)).to.eql(ms_test)
-
     })
 })

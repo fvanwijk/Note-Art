@@ -11,87 +11,100 @@ import {
 } from 'util'
 
 export class Piece {
-    constructor(BPM, time_signature, data) {
-        this._BPM = BPM
-        this._time_signature = time_signature
-        this.rhythm = Rhythm.getRhythm(BPM, time_signature)
-        if (isArray(data)) {
-            this._data = data
-        } else {
-            this._data = []
-        }
-        this.init()
+    constructor(bpm = 100, time_signature = [4, 4], data = []) {
+        this.attributes = []
+        this.attributes[Piece.RHYTHM] = new Rhythm(bpm, time_signature)
+        this.attributes[Piece.DATA] = data
+        this.attributes[Piece.NOTES] = this.init()
+        this.attributes[Piece.DURATION] = this.calculateDuration()
     }
 
+    static get RHYTHM() {
+        return 0
+    }
+
+    static get DATA() {
+        return 1
+    }
+
+    static get NOTES() {
+        return 2
+    }
+
+    static get DURATION() {
+        return 3
+    }
+
+
     init() {
-        this.playable_data = new Array()
+        let notes = []
         this.data.forEach((i) => {
             if (i instanceof Measure || i instanceof Sequence) {
                 i.getData().forEach((j) => {
-                    this.playable_data.push(j)
+                    notes.push(j)
                 })
             } else {
-                this.playable_data.push(i)
+                notes.push(i)
             }
         })
-        this.calculateLength()
+        return notes
+    }
+
+    get rhythm() {
+        return this.attributes[Piece.RHYTHM]
     }
 
     get data() {
-        return this._data
+        return this.attributes[Piece.DATA]
     }
 
     set data(data) {
-        this._data = data
-        this.init()
+        this.attributes[Piece.DATA] = data
+        this.notes = this.init()
     }
 
     /**
      * get the duration
      */
     get duration() {
-        return this._duration
+        return this.attributes[Piece.DURATION]
     }
 
-    get timeSignature() {
-        return this._time_signature
+    get time_signature() {
+        return this.rhythm.time_signature
     }
 
-    /**
-     * set the duration
-     */
-    set duration(duration) {
-        this._duration = duration
+    get bpm() {
+        return this.attributes[Piece.RHYTHM].bpm
     }
 
-    get BPM() {
-        return this._BPM
+    set bpm(bpm) {
+        this.rhythm.updateBPM(bpm)
+        this.attributes[Piece.DURATION] = this.calculateDuration()
     }
 
-    set BPM(BPM) {
-        this._BPM = BPM
-        this.rhythm.updateBPM(BPM)
-        this.length = this.calculateLength()
+    get notes() {
+        return this.attributes[Piece.NOTES]
     }
 
-    calculateLength() {
-        this.length = 0
-        this.playable_data.forEach(data => {
+    calculateDuration() {
+        let duration = 0
+        this.notes.forEach(data => {
             if (data instanceof Note || data instanceof Chord) {
-                this.length += 60 / this.BPM * note_durations[data.duration] * this.rhythm.beats_per_measure
+                duration += 60 / this.bpm * note_durations[data.duration] * this.rhythm.beats_per_measure
             } else if (isArray(data)) {
                 let min_duration = note_durations[data.duration]
                 data.forEach((note) => {
                     min_duration = min_duration < note_durations[note.duration] ? min_duration : note_durations[note.duration]
                 })
-                this.length += 60 / this.BPM * min_duration * this.rhythm.beats_per_measure
+                duration += 60 / this.bpm * min_duration * this.rhythm.beats_per_measure
             }
         })
-        return this.length
+        return duration
     }
 
     play() {
-        this.rhythm.addNotes(this.playable_data)
+        this.rhythm.addNotes(this.notes)
         this.rhythm.toggle()
     }
 
@@ -106,14 +119,9 @@ export class Piece {
         string += '} '
         return string
     }
+
     transpose(interval) {
-        const newData = this.data.map((i) => {
-            if (i instanceof Measure || i instanceof Sequence || i instanceof Chord) {
-                return i.transpose(interval)
-            } else if (i instanceof Note) {
-                return i.getInterval(interval)
-            }
-        })
-        return new Piece(this.BPM, this.time_signature, newData)
+        const newData = this.data.map(i => i.transpose(interval))
+        return new Piece(this.bpm, this.time_signature, newData)
     }
 }

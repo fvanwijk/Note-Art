@@ -20,8 +20,8 @@ export class Measure {
     constructor(data = [], max_duration = 0) {
         this.attributes = []
         this.attributes[Measure.NOTES] = data
-        this.attributes[Measure.DURATION] = this.updateDuration()
         this.attributes[Measure.MAX_DURATION] = max_duration
+        this.attributes[Measure.DURATION] = this.updateDuration()
     }
 
     static get NOTES(){return 0}
@@ -32,38 +32,44 @@ export class Measure {
     /**
      * Array of all the notes in the measure
      */
-    get data() {
+    get notes() {
         return this.attributes[Measure.NOTES]
     }
 
     /**
      * Assign new notes to measure
      */
-    set data(data) {
-        this._data = data
+    set notes(notes) {
+        this.attributes[Measure.NOTES] = notes
     }
 
     /**
      * Returns a new array with the same notes.
      */
     getData() {
-        const data = []
-        this.data.forEach(i =>  data.push(i))
-        return data
+        const notes = []
+        this.notes.forEach(i =>  notes.push(i))
+        return notes
     }
 
     /**
      * get the duration
      */
     get duration() {
-        return this._duration
+        return this.attributes[Measure.DURATION]
     }
 
     /**
      * set the duration
      */
     set duration(duration) {
-        this._duration = duration
+        this.attributes[Measure.DURATION] = duration
+    }
+
+    get max_duration(){return this.attributes[Measure.MAX_DURATION]}
+
+    isFull(){
+        return this.duration == this.max_duration
     }
 
     /**
@@ -72,43 +78,44 @@ export class Measure {
      * @param {Array/Note} new_notes Notes to change to
      */
     mutate(i, new_notes) {
-        const newData = JSON.parse(JSON.stringify(this.data))
+        const newData = JSON.parse(JSON.stringify(this.notes))
         newData[i] = new_notes
         return new Measure(newData)
     }
 
     /**
-     * Add data to the end of the measure
+     * Add notes to the end of the measure
      * @param {Note/Chord} new_notes
      */
     addNotes(new_notes) {
-        this.data.push(new_notes)
+        this.notes.push(new_notes)
     }
 
     updateDuration() {
-        this.duration = 0
+        let duration = 0
         let valid = 0
-        this.data.some((notes) => {
+        this.notes.some((notes) => {
             if (notes instanceof Note || notes instanceof Chord)
-                this.duration += note_durations[notes.duration]
+                duration += note_durations[notes.duration]
             else {
                 let min_duration = notes[0].duration
                 notes.forEach((note) => {
                     min_duration = min_duration < note_durations[note.duration] ? min_duration : note_durations[note.duration]
                 })
-                this.duration += min_duration
+                duration += min_duration
             }
-            if (this.duration <= this.max_duration || this.max_duration === 0) {
+            if (duration <= this.max_duration || this.max_duration === 0) {
                 valid++
             } else
                 return true
         })
-        this.data = this.data.slice(0, valid)
+        this.notes = this.notes.slice(0, valid)
+        return duration
     }
 
     transpose(interval) {
-        // console.log(this.data)
-        const newData = this.data.map((n) => {
+        // console.log(this.notes)
+        const newData = this.notes.map((n) => {
             if (n instanceof Note) {
                 console.log(n, n.toString(), interval, n.getInterval(interval).toString())
                 // console.log(piano.note('c5e').getInterval(-1))
@@ -124,7 +131,7 @@ export class Measure {
 
     toString() {
         let string = 'Measure: { '
-        for (const i of this.data)
+        for (const i of this.notes)
             if (i instanceof Note || i instanceof Chord) {
                 string += i.toString() + ', '
             } else {
@@ -137,5 +144,3 @@ export class Measure {
         return string
     }
 }
-
-export default Measure

@@ -1,44 +1,49 @@
 export class Sequence {
     constructor(data = []) {
-        this._data = data
-        this._duration = 0
+        this.attributes = []
+        this.attributes[Sequence.MEASURES] = data
+        this.attributes[Sequence.DURATION] = 0
         this.data.forEach(meas => {
-            this._duration += meas.duration
+            this.duration += meas.duration
         })
     }
 
+    static get MEASURES() {
+        return 0
+    }
+
+    static get DURATION() {
+        return 1
+    }
+
     get data() {
-        return this._data
+        return this.attributes[Sequence.MEASURES]
     }
 
     set data(data) {
-        this._data = data
+        this.attributes[Sequence.MEASURES] = data
     }
 
     /**
      * get the duration
      */
     get duration() {
-        return this._duration
+        return this.attributes[Sequence.DURATION]
     }
 
     /**
      * set the duration
      */
     set duration(duration) {
-        this._duration = duration
+        this.attributes[Sequence.DURATION] = duration
     }
 
     getData() {
         const data = []
         this.data.forEach((i) => {
-            i.data.forEach(j => data.push(j))
+            i.notes.forEach(j => data.push(j))
         })
         return data
-    }
-
-    length() {
-        return this.data.length
     }
 
     addMeasure(measure) {

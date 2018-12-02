@@ -190,6 +190,14 @@ export class Note {
         })
     }
 
+    /**
+     * ALias for getInterval()
+     * @param {Number} interval 
+     */
+    transpose(interval){
+        return this.getInterval(interval)
+    }
+
     // getMajorChord() {
     //     return new Chord(this, this.getInterval(4), this.getInterval(7))
     // }
