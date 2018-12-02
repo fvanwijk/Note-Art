@@ -135,7 +135,7 @@ describe('Note Object', () => {
             expect(b.getInterval(13)).to.eql(b_stub['13'])
             expect(piano.note('b4e').getInterval(1).getInterval(-1)).to.eql(piano.note('b4e'))
             expect(piano.note('b4e').getInterval(1)).to.eql(piano.note('C5e'))
-            expect(piano.note('c5e').getInterval(-1)).to.eql(piano.note('b4e'))
+            expect(new Note({note: 'c',octave: 5,duration: 'e'}).getInterval(-1)).to.eql(new Note({note: 'b',octave: 4,duration: 'e'}))
         })
     })
 })

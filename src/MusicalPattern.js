@@ -45,8 +45,8 @@ export class MusicalPattern {
     }
 
     /**
-     * returns the interval inside the pattern
-     * for example - if the pattern is C Major scale,
+     * returns the interval inside the Scale
+     * for example - if the Scale is a C Major,
      * than getInterval(1) wiil return D.
      * @param {number} interval
      */
@@ -55,14 +55,6 @@ export class MusicalPattern {
         for (let i = 0; i < interval; i++)
             counter += this.pattern[i]
         return this.tonic.getInterval(counter)
-    }
-
-    /**
-     * load all the sound files of the notes in the pattern.
-     */
-    loadSound() {
-        for (let n of this.notes)
-            n.loadSound()
     }
 
     /**

@@ -27,13 +27,14 @@ export class Note {
     constructor(attributes = {}) {
         const note = attributes.note ? firstToUpper(attributes.note) : "A"
         this.attributes = []
-        this.attributes[0] = !notes["#"].includes(note) && !notes.b.includes(note) ? "A" : note
-        this.attributes[1] =
+        this.attributes[Note.NOTE] = !notes["#"].includes(note) && !notes.b.includes(note) ? "A" : note
+        this.attributes[Note.OCTAVE] =
             attributes.octave >= 0 && attributes.octave <= 7 ? attributes.octave : 3
-        this.attributes[2] = attributes.duration || "q"
-        this.attributes[3] = attributes.instrument || "Piano"
-        this.attributes[4] = circle_of_fourths.includes(this.note) ? "b" : "#"
-        this.attributes[5] = notes[this.lang].indexOf(this.note)
+        this.attributes[Note.DURATION] = attributes.duration || "q"
+        this.attributes[Note.INSTRUMENT] = attributes.instrument || "Piano"
+        this.attributes[Note.LANG] = circle_of_fourths.includes(this.note) ? "b" : "#"
+        this.attributes[Note.INDEX] = notes[this.lang].indexOf(this.note)
+        this.attributes[Note.FREQUENCY] = this.getFrequency()
         Note.setSound(this)
     }
 
@@ -61,6 +62,9 @@ export class Note {
         return 5
     }
 
+    static get FREQUENCY() {
+        return 6
+    }
 
     // gets a note and creates it's active Howl player in the notes hash-table so we can play it
     static setSound(note) {
@@ -70,7 +74,7 @@ export class Note {
             note.octave
         if (!sounds.has(key)) {
             const filePath =
-                "https://sean-test-server.herokuapp.com/" +
+                "https://note-art.azurewebsites.net/" +
                 note.instrument +
                 "/" +
                 "FF_" +
@@ -113,16 +117,6 @@ export class Note {
         return this.attributes[Note.DURATION]
     }
 
-    /**
-     * get the frequancy of a note.
-     * @type {Number}
-     * @readonly
-     */
-    get frequency() {
-        let octave_interval = this.octave - 4 //calculate octave difference
-        return Math.pow(semitone, this.index - 9 + octave_interval * 12) * 440
-    }
-
     get instrument() {
         return this.attributes[Note.INSTRUMENT]
     }
@@ -140,6 +134,20 @@ export class Note {
     // returns the index of the note from the 12 notes (C, Db, etc...)
     get index() {
         return this.attributes[Note.INDEX]
+    }
+
+    get frequency() {
+        return this.attributes[Note.FREQUENCY]
+    }
+
+    /**
+     * get the frequancy of a note.
+     * @type {Number}
+     * @private
+     */
+    getFrequency() {
+        let octave_interval = this.octave - 4 //calculate octave difference
+        return Math.pow(semitone, this.index - 9 + octave_interval * 12) * 440
     }
 
     /**
@@ -238,10 +246,10 @@ export class Note {
                     this.octave
                 )
                 .play()
-            console.log(this.note, this.octave)
+            console.log(this.note, this.octave, this.frequency)
         } else {
             console.log(
-                "Sound not loaded! please make sure you load with x.loadSound()"
+                "Cant find audio file"
             )
         }
     }

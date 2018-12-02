@@ -18,16 +18,22 @@ export class Measure {
      * @param {Number} max_duration Max duration of the measure(decided by time signature)
      */
     constructor(data = [], max_duration = 0) {
-        this._data = data
-        this.max_duration = max_duration
-        this.updateDuration()
+        this.attributes = []
+        this.attributes[Measure.NOTES] = data
+        this.attributes[Measure.DURATION] = this.updateDuration()
+        this.attributes[Measure.MAX_DURATION] = max_duration
     }
 
+    static get NOTES(){return 0}
+
+    static get DURATION(){return 1}
+
+    static get MAX_DURATION(){return 2}
     /**
      * Array of all the notes in the measure
      */
     get data() {
-        return this._data
+        return this.attributes[Measure.NOTES]
     }
 
     /**
@@ -101,16 +107,18 @@ export class Measure {
     }
 
     transpose(interval) {
+        // console.log(this.data)
         const newData = this.data.map((n) => {
-            console.log(n)
             if (n instanceof Note) {
+                console.log(n, n.toString(), interval, n.getInterval(interval).toString())
+                // console.log(piano.note('c5e').getInterval(-1))
                 return n.getInterval(interval)
             } else if (n instanceof Chord)
                 return n.tranpose(interval)
             else if (isArray(n))
                 return n.map(note => note.getInterval(interval))
         })
-        console.log(newData)
+        // console.log(newData)
         return new Measure(newData)
     }
 
