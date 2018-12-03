@@ -87,6 +87,7 @@ export class Piece {
         this.attributes = []
         this.attributes[Piece.RHYTHM] = new Rhythm(bpm, time_signature)
         this.attributes[Piece.DATA] = data
+        this.attributes[Piece.CURRENT_MEASURE] = 0
         this.attributes[Piece.NOTES] = this.init()
         this.attributes[Piece.DURATION] = this.calculateDuration()
     }
@@ -107,14 +108,23 @@ export class Piece {
         return 3
     }
 
+    static get CURRENT_MEASURE() {
+        return 4
+    }
 
     init() {
         let notes = []
         this.data.forEach((i) => {
-            if (i instanceof Measure || i instanceof Sequence) {
+            if (i instanceof Measure) {
                 i.getData().forEach((j) => {
                     notes.push(j)
                 })
+                this.current_measure++
+            } else if (i instanceof Sequence) {
+                i.getData().forEach((j) => {
+                    notes.push(j)
+                })
+                this.current_measure += i.data.length
             } else {
                 notes.push(i)
             }
@@ -159,6 +169,14 @@ export class Piece {
         return this.attributes[Piece.NOTES]
     }
 
+    get current_measure() {
+        return this.attributes[Piece.CURRENT_MEASURE]
+    }
+
+    set current_measure(curr) {
+        this.attributes[Piece.CURRENT_MEASURE] = curr
+    }
+
     calculateDuration() {
         let duration = 0
         this.notes.forEach(data => {
@@ -182,6 +200,10 @@ export class Piece {
 
     pushToData(new_data) {
         this.data.push(new_data)
+    }
+
+    isPlaying() {
+        return this.rhythm.isPlaying()
     }
 
     toString() {

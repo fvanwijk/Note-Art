@@ -103,7 +103,7 @@ export class Note {
         this.attributes[Note.OCTAVE] =
             attributes.octave >= 0 &amp;&amp; attributes.octave &lt;= 7 ? attributes.octave : 3
         this.attributes[Note.DURATION] = attributes.duration || "q"
-        this.attributes[Note.INSTRUMENT] = firstToUpper(attributes.instrument) || "Piano"
+        this.attributes[Note.INSTRUMENT] = attributes.instrument ? firstToUpper(attributes.instrument) : "Piano"
         this.attributes[Note.FAMILY] = circle_of_fourths.includes(this.note) ? "b" : "#"
         this.attributes[Note.INDEX] = notes[this.family].indexOf(this.note)
         this.attributes[Note.FREQUENCY] = this.calculateFrequency()

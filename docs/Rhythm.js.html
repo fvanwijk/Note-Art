@@ -141,7 +141,7 @@ export class Rhythm {
         this.bpm = bpm
         this.beats_per_measure = time_signature[0]
         this.beat_duration = time_signature[1]
-        this.isPlaying = false
+        this.is_playing = false
         this.beat_check = 0
 
         this.loop = true
@@ -246,6 +246,10 @@ export class Rhythm {
         requestAnimationFrame(rhythm.draw)
     }
 
+    isPlaying() {
+        return this.is_playing
+    }
+
     getBeat() {
         return this.current_beat
     }
@@ -253,8 +257,8 @@ export class Rhythm {
     toggle(index = 0) {
         rhythm = this
 
-        this.isPlaying = !this.isPlaying
-        if (this.isPlaying) { // start playing
+        this.is_playing = !this.is_playing
+        if (this.is_playing) { // start playing
             // check if context is in suspended state (autoplay policy)
             if (this.audioCtx.state === 'suspended') {
                 this.audioCtx.resume()
@@ -286,7 +290,7 @@ export class Rhythm {
     updateBPM(bpm) {
         this.bpm = bpm
         this.seconds_per_beat = 60 / bpm
-        if (this.isPlaying == true) {
+        if (this.is_playing == true) {
             this.toggle()
             this.toggle()
         }

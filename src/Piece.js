@@ -43,19 +43,17 @@ export class Piece {
     init() {
         let notes = []
         this.data.forEach((i) => {
-            if (i instanceof Measure){
+            if (i instanceof Measure) {
                 i.getData().forEach((j) => {
                     notes.push(j)
                 })
                 this.current_measure++
-            }
-            else if (i instanceof Sequence){
+            } else if (i instanceof Sequence) {
                 i.getData().forEach((j) => {
                     notes.push(j)
                 })
-                this.current_measure+=i.data.length
-            }
-            else {
+                this.current_measure += i.data.length
+            } else {
                 notes.push(i)
             }
         })
@@ -126,12 +124,6 @@ export class Piece {
     play() {
         this.rhythm.addNotes(this.notes)
         this.rhythm.toggle()
-    }
-
-    addNotes(notes) {
-        if (!this.data.length || ) {
-
-        }
     }
 
     pushToData(new_data) {
