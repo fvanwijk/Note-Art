@@ -1,4 +1,3 @@
-import path from "path"
 import {
     firstToUpper,
     notes,
@@ -32,45 +31,84 @@ export class Note {
             attributes.octave >= 0 && attributes.octave <= 7 ? attributes.octave : 3
         this.attributes[Note.DURATION] = attributes.duration || "q"
         this.attributes[Note.INSTRUMENT] = attributes.instrument || "Piano"
-        this.attributes[Note.LANG] = circle_of_fourths.includes(this.note) ? "b" : "#"
-        this.attributes[Note.INDEX] = notes[this.lang].indexOf(this.note)
-        this.attributes[Note.FREQUENCY] = this.getFrequency()
+        this.attributes[Note.FAMILY] = circle_of_fourths.includes(this.note) ? "b" : "#"
+        this.attributes[Note.INDEX] = notes[this.family].indexOf(this.note)
+        this.attributes[Note.FREQUENCY] = this.calculateFrequency()
         Note.setSound(this)
     }
 
+    /**
+     * Index of note in attributes
+     * @type    {Number}
+     * @readonly
+     */
     static get NOTE() {
         return 0
     }
 
+    /**
+     * Index of octave in attributes
+     * @type    {Number}
+     * @readonly
+     */
     static get OCTAVE() {
         return 1
     }
 
+    /**
+     * Index of duration in attributes
+     * @type    {Number}
+     * @readonly
+     */
     static get DURATION() {
         return 2
     }
 
+    /**
+     * Index of instrument in attributes
+     * @type    {Number}
+     * @readonly
+     */
     static get INSTRUMENT() {
         return 3
     }
 
-    static get LANG() {
+    /**
+     * Index of family in attributes
+     * @type    {Number}
+     * @readonly
+     */
+    static get FAMILY() {
         return 4
     }
 
+    /**
+     * Index of note index in attributes
+     * @type    {Number}
+     * @readonly
+     */
     static get INDEX() {
         return 5
     }
 
+    /**
+     * Index of frequency in attributes
+     * @type    {Number}
+     * @readonly
+     */
     static get FREQUENCY() {
         return 6
     }
 
-    // gets a note and creates it's active Howl player in the notes hash-table so we can play it
+    /**
+     * Gets a note and creates it's active Howl player in the notes hash-table so we can play it
+     * @param {Note} note
+     * @private
+     */
     static setSound(note) {
         const key =
             note.instrument +
-            notes["b"][notes[note.lang].indexOf(note.note)] +
+            notes["b"][notes[note.family].indexOf(note.note)] +
             note.octave
         if (!sounds.has(key)) {
             const filePath =
@@ -78,7 +116,7 @@ export class Note {
                 note.instrument +
                 "/" +
                 "FF_" +
-                notes["b"][notes[note.lang].indexOf(note.note)] +
+                notes["b"][notes[note.family].indexOf(note.note)] +
                 note.octave +
                 ".mp3"
             sounds.set(
@@ -91,7 +129,7 @@ export class Note {
     }
 
     /**
-     * returns the note alphabet representation as a string.
+     * Returns the note alphabet representation as a string.
      * @type {String}
      * @readonly
      */
@@ -100,7 +138,7 @@ export class Note {
     }
 
     /**
-     * get octave of note.
+     * Get octave of note.
      * @type {Number}
      * @readonly
      */
@@ -109,7 +147,7 @@ export class Note {
     }
 
     /**
-     * get the duration of a note
+     * Get the duration of a note
      * @type {String}
      * @readonly
      */
@@ -117,41 +155,63 @@ export class Note {
         return this.attributes[Note.DURATION]
     }
 
+        /**
+     * Get the instrument that plays the note
+     * @type {String}
+     * @readonly
+     */
     get instrument() {
         return this.attributes[Note.INSTRUMENT]
     }
 
-    // whether the note is a part of circle of fourths or fifths.
-    get lang() {
-        return this.attributes[Note.LANG]
+        /**
+     * Get the family of notes the note belnogs to - sharps or flats
+     * @type {String}
+     * @readonly
+     */
+    get family() {
+        return this.attributes[Note.FAMILY]
     }
 
-    // set whether note is in '#' or 'b' family
-    set lang(l) {
-        this.attributes[Note.LANG] = l == "#" || l == "b" ? l : this._lang
+    /**
+     * Set the notes family in case needed.
+     * @type {String}
+     */
+    set family(l) {
+        this.attributes[Note.family] = l == "#" || l == "b" ? l : this.family
     }
 
-    // returns the index of the note from the 12 notes (C, Db, etc...)
+        /**
+     * Get the index of the note from the 12 notes (C, Db, etc...).
+     * @type {String}
+     * @readonly
+     */
     get index() {
         return this.attributes[Note.INDEX]
     }
 
+    /**
+     * Get the frequency of the note.
+     * @type {String}
+     * @readonly
+     */
     get frequency() {
         return this.attributes[Note.FREQUENCY]
     }
 
     /**
-     * get the frequancy of a note.
+     * Calculate the frequancy of a note.
      * @type {Number}
      * @private
      */
-    getFrequency() {
+    calculateFrequency() {
         let octave_interval = this.octave - 4 //calculate octave difference
         return Math.pow(semitone, this.index - 9 + octave_interval * 12) * 440
     }
 
     /**
      * returns a clone of the note(new instance).
+     * @type {Note}
      */
     clone() {
         return new Note({
@@ -163,18 +223,20 @@ export class Note {
     }
 
     /**
-     * gets a number as interval and returns a new instance of a note
-     * which is constructed by the musical interval formula.
-     * for example, if the note is a 'C' in octave 3,
-     * calling the function with the number 4(which is a major third) will return
-     * a Note instance with the musical note 'E' in octave 3 with the same instrument.
+     * Gets interval size (Number) and returns a new instance of a note
+     * which is calculated by the musical interval formula.
+     * @example
+     * let c = new Note({note:'c', octave:3}) //create a C3 note.
+     * let interval = c.interval(4) //calling the function with the number 4(which is a major third).
+     * console.log(interval.toStrring()) //should output 'E3'.
+     * console.log(interval.constructor.name) //should output Note.
      * @param {number} interval Musical Interval
      */
-    getInterval(interval) {
+    interval(interval) {
         if (interval >= 0) {
             const oct_diff = (this.index + interval) / 12
             return new Note({
-                note: notes[this.lang][(this.index + interval) % 12],
+                note: notes[this.family][(this.index + interval) % 12],
                 octave: this.octave + parseInt(oct_diff),
                 duration: this.duration,
                 instrument: this.instrument
@@ -183,7 +245,7 @@ export class Note {
         const oct_diff =
             this.index + interval < 0 ? Math.floor((this.index + interval) / 12) : 0
         return new Note({
-            note: notes[this.lang][Math.abs((this.index + (12 + (interval % 12))) % 12)],
+            note: notes[this.family][Math.abs((this.index + (12 + (interval % 12))) % 12)],
             octave: parseInt(this.octave) + parseInt(oct_diff),
             duration: this.duration,
             instrument: this.instrument
@@ -191,20 +253,20 @@ export class Note {
     }
 
     /**
-     * ALias for getInterval()
+     * ALias for interval()
      * @param {Number} interval 
      */
-    transpose(interval){
-        return this.getInterval(interval)
+    transpose(interval) {
+        return this.interval(interval)
     }
 
     // getMajorChord() {
-    //     return new Chord(this, this.getInterval(4), this.getInterval(7))
+    //     return new Chord(this, this.interval(4), this.interval(7))
     // }
     getMajorScale() {
         let scale = [this.note]
         for (let i of major_scale) {
-            scale.push(this.getInterval(i))
+            scale.push(this.interval(i))
         }
         return toString(scale)
     }
@@ -240,21 +302,17 @@ export class Note {
      * Play the note.
      */
     play() {
-        if (
+        if (sounds.get(
+                this.instrument +
+                notes["b"][notes[this.family].indexOf(this.note)] +
+                this.octave
+            ) instanceof Howl) {
             sounds.get(
                 this.instrument +
-                notes["b"][notes[this.lang].indexOf(this.note)] +
+                notes["b"][notes[this.family].indexOf(this.note)] +
                 this.octave
-            ) instanceof Howl
-        ) {
-            sounds
-                .get(
-                    this.instrument +
-                    notes["b"][notes[this.lang].indexOf(this.note)] +
-                    this.octave
-                )
-                .play()
-            console.log(this.note, this.octave, this.frequency)
+            ).play()
+            // console.log(this.note, this.octave, this.frequency)
         } else {
             console.log(
                 "Cant find audio file"

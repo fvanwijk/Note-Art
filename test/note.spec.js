@@ -8,9 +8,9 @@ describe('Note Object', () => {
     it('checks properties', () => {
         expect(c.note).to.eql('C')
         expect(c.octave).to.eql(3)
-        expect(c.lang).to.eql('b')
+        expect(c.family).to.eql('b')
         expect(c.duration).to.eql('q')
-        expect(c.lang).to.eql('b')
+        expect(c.family).to.eql('b')
         expect(c.index).to.eql(0)
         expect(c.toString()).to.eql('C3')
         expect(c.isEqual(new Note({note:'c'}))).to.true
@@ -29,15 +29,15 @@ describe('Note Object', () => {
                 '12':  piano.note('c4q'),
                 '13':  piano.note('db4q'),
             }
-            expect(c.getInterval(-13)).to.eql(c_stub['-13'])
-            expect(c.getInterval(-12)).to.eql(c_stub['-12'])
-            expect(c.getInterval(-11)).to.eql(c_stub['-11'])
-            expect(c.getInterval(-1)).to.eql(c_stub['-1'])
-            expect(c.getInterval(0)).to.eql(c_stub['0'])
-            expect(c.getInterval(1)).to.eql(c_stub['1'])
-            expect(c.getInterval(11)).to.eql(c_stub['11'])
-            expect(c.getInterval(12)).to.eql(c_stub['12'])
-            expect(c.getInterval(13)).to.eql(c_stub['13'])
+            expect(c.interval(-13)).to.eql(c_stub['-13'])
+            expect(c.interval(-12)).to.eql(c_stub['-12'])
+            expect(c.interval(-11)).to.eql(c_stub['-11'])
+            expect(c.interval(-1)).to.eql(c_stub['-1'])
+            expect(c.interval(0)).to.eql(c_stub['0'])
+            expect(c.interval(1)).to.eql(c_stub['1'])
+            expect(c.interval(11)).to.eql(c_stub['11'])
+            expect(c.interval(12)).to.eql(c_stub['12'])
+            expect(c.interval(13)).to.eql(c_stub['13'])
         })
         it('checks the note Db', function () {
             const db      = new Note({note:'db'})
@@ -52,15 +52,15 @@ describe('Note Object', () => {
                 '12':  piano.note('db4q'),
                 '13':  piano.note('d4q'),
             }
-            expect(db.getInterval(-13)).to.eql(db_stub['-13'])
-            expect(db.getInterval(-12)).to.eql(db_stub['-12'])
-            expect(db.getInterval(-11)).to.eql(db_stub['-11'])
-            expect(db.getInterval(-1)).to.eql(db_stub['-1'])
-            expect(db.getInterval(0)).to.eql(db_stub['0'])
-            expect(db.getInterval(1)).to.eql(db_stub['1'])
-            expect(db.getInterval(11)).to.eql(db_stub['11'])
-            expect(db.getInterval(12)).to.eql(db_stub['12'])
-            expect(db.getInterval(13)).to.eql(db_stub['13'])
+            expect(db.interval(-13)).to.eql(db_stub['-13'])
+            expect(db.interval(-12)).to.eql(db_stub['-12'])
+            expect(db.interval(-11)).to.eql(db_stub['-11'])
+            expect(db.interval(-1)).to.eql(db_stub['-1'])
+            expect(db.interval(0)).to.eql(db_stub['0'])
+            expect(db.interval(1)).to.eql(db_stub['1'])
+            expect(db.interval(11)).to.eql(db_stub['11'])
+            expect(db.interval(12)).to.eql(db_stub['12'])
+            expect(db.interval(13)).to.eql(db_stub['13'])
         })
 
         it('checks the note cs', function () {
@@ -76,15 +76,15 @@ describe('Note Object', () => {
                 '12':  piano.note('c#4q'),
                 '13':  piano.note('d4q'),
             }
-            expect(cs.getInterval(-13)).to.eql(cs_stub['-13'])
-            expect(cs.getInterval(-12)).to.eql(cs_stub['-12'])
-            expect(cs.getInterval(-11)).to.eql(cs_stub['-11'])
-            expect(cs.getInterval(-1)).to.eql(cs_stub['-1'])
-            expect(cs.getInterval(0)).to.eql(cs_stub['0'])
-            expect(cs.getInterval(1)).to.eql(cs_stub['1'])
-            expect(cs.getInterval(11)).to.eql(cs_stub['11'])
-            expect(cs.getInterval(12)).to.eql(cs_stub['12'])
-            expect(cs.getInterval(13)).to.eql(cs_stub['13'])
+            expect(cs.interval(-13)).to.eql(cs_stub['-13'])
+            expect(cs.interval(-12)).to.eql(cs_stub['-12'])
+            expect(cs.interval(-11)).to.eql(cs_stub['-11'])
+            expect(cs.interval(-1)).to.eql(cs_stub['-1'])
+            expect(cs.interval(0)).to.eql(cs_stub['0'])
+            expect(cs.interval(1)).to.eql(cs_stub['1'])
+            expect(cs.interval(11)).to.eql(cs_stub['11'])
+            expect(cs.interval(12)).to.eql(cs_stub['12'])
+            expect(cs.interval(13)).to.eql(cs_stub['13'])
         })
 
         it('checks the note g', function () {
@@ -100,15 +100,15 @@ describe('Note Object', () => {
                 '12':  piano.note('g4q'),
                 '13':  piano.note('g#4q'),
             }
-            expect(g.getInterval(-13)).to.eql(g_stub['-13'])
-            expect(g.getInterval(-12)).to.eql(g_stub['-12'])
-            expect(g.getInterval(-11)).to.eql(g_stub['-11'])
-            expect(g.getInterval(-1)).to.eql(g_stub['-1'])
-            expect(g.getInterval(0)).to.eql(g_stub['0'])
-            expect(g.getInterval(1)).to.eql(g_stub['1'])
-            expect(g.getInterval(11)).to.eql(g_stub['11'])
-            expect(g.getInterval(12)).to.eql(g_stub['12'])
-            expect(g.getInterval(13)).to.eql(g_stub['13'])
+            expect(g.interval(-13)).to.eql(g_stub['-13'])
+            expect(g.interval(-12)).to.eql(g_stub['-12'])
+            expect(g.interval(-11)).to.eql(g_stub['-11'])
+            expect(g.interval(-1)).to.eql(g_stub['-1'])
+            expect(g.interval(0)).to.eql(g_stub['0'])
+            expect(g.interval(1)).to.eql(g_stub['1'])
+            expect(g.interval(11)).to.eql(g_stub['11'])
+            expect(g.interval(12)).to.eql(g_stub['12'])
+            expect(g.interval(13)).to.eql(g_stub['13'])
         })
 
         it('checks the note b', function () {
@@ -124,18 +124,18 @@ describe('Note Object', () => {
                 '12':  piano.note('b4q'),
                 '13':  piano.note('c5q'),
             }
-            expect(b.getInterval(-13)).to.eql(b_stub['-13'])
-            expect(b.getInterval(-12)).to.eql(b_stub['-12'])
-            expect(b.getInterval(-11)).to.eql(b_stub['-11'])
-            expect(b.getInterval(-1)).to.eql(b_stub['-1'])
-            expect(b.getInterval(0)).to.eql(b_stub['0'])
-            expect(b.getInterval(1)).to.eql(b_stub['1'])
-            expect(b.getInterval(11)).to.eql(b_stub['11'])
-            expect(b.getInterval(12)).to.eql(b_stub['12'])
-            expect(b.getInterval(13)).to.eql(b_stub['13'])
-            expect(piano.note('b4e').getInterval(1).getInterval(-1)).to.eql(piano.note('b4e'))
-            expect(piano.note('b4e').getInterval(1)).to.eql(piano.note('C5e'))
-            expect(new Note({note: 'c',octave: 5,duration: 'e'}).getInterval(-1)).to.eql(new Note({note: 'b',octave: 4,duration: 'e'}))
+            expect(b.interval(-13)).to.eql(b_stub['-13'])
+            expect(b.interval(-12)).to.eql(b_stub['-12'])
+            expect(b.interval(-11)).to.eql(b_stub['-11'])
+            expect(b.interval(-1)).to.eql(b_stub['-1'])
+            expect(b.interval(0)).to.eql(b_stub['0'])
+            expect(b.interval(1)).to.eql(b_stub['1'])
+            expect(b.interval(11)).to.eql(b_stub['11'])
+            expect(b.interval(12)).to.eql(b_stub['12'])
+            expect(b.interval(13)).to.eql(b_stub['13'])
+            expect(piano.note('b4e').interval(1).interval(-1)).to.eql(piano.note('b4e'))
+            expect(piano.note('b4e').interval(1)).to.eql(piano.note('C5e'))
+            expect(new Note({note: 'c',octave: 5,duration: 'e'}).interval(-1)).to.eql(new Note({note: 'b',octave: 4,duration: 'e'}))
         })
     })
 })

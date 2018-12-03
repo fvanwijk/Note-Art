@@ -96,9 +96,9 @@ export class Chord {
         }
 
         // Major
-        if (root.getInterval(4).note === third.note) {
+        if (root.interval(4).note === third.note) {
             // Perfect Fifth
-            if (root.getInterval(7).note === fifth.note) {
+            if (root.interval(7).note === fifth.note) {
                 // Triad
                 if (note4 == null) {
                     this.type = 'Major'
@@ -107,62 +107,62 @@ export class Chord {
                 // Not Triad
                 else {
                     // Added Fourth
-                    if (root.getInterval(5).note === note4.note) {
+                    if (root.interval(5).note === note4.note) {
                         this.type = 'Added Fourth'
                         this.symbol = 'add4'
                     }
                     // Added Sixth
-                    else if (root.getInterval(9).note === note4.note) {
+                    else if (root.interval(9).note === note4.note) {
                         this.type = 'Sixth'
                         this.symbol = '6'
                     }
                     // Major 7th
-                    else if (root.getInterval(11).note === note4.note) {
+                    else if (root.interval(11).note === note4.note) {
                         this.type = 'Major 7th'
                         this.symbol = 'Maj7'
                     }
                     // Seventh
-                    else if (root.getInterval(10).note === note4.note) {
+                    else if (root.interval(10).note === note4.note) {
                         this.type = 'Seventh'
                         this.symbol = '7'
                     }
                 }
             }
             // Diminished Fifth
-            else if (root.getInterval(6).note === fifth.note) {
+            else if (root.interval(6).note === fifth.note) {
                 this.type = 'Major Flat Fifth'
                 this.symbol = 'b5'
             }
             // Augmented Fifth
-            else if (root.getInterval(8).note === fifth.note) {
+            else if (root.interval(8).note === fifth.note) {
                 this.type = 'Major Augmented Fifth'
                 this.symbol = 'aug'
             }
         }
         //Minor
-        else if (root.getInterval(3).note === third.note) {
-            if (root.getInterval(7).note === fifth.note) {
+        else if (root.interval(3).note === third.note) {
+            if (root.interval(7).note === fifth.note) {
                 if (note4 == null) {
                     this.type = 'Minor'
                     this.symbol = 'm'
                 } else {
-                    if (root.getInterval(5).note === note4.note) {
+                    if (root.interval(5).note === note4.note) {
                         this.type = 'Minor Added Fourth'
                         this.symbol = 'madd4'
-                    } else if (root.getInterval(9).note === note4.note) {
+                    } else if (root.interval(9).note === note4.note) {
                         this.type = 'Minor Sixth'
                         this.symbol = 'm6'
-                    } else if (root.getInterval(10).note === note4.note) {
+                    } else if (root.interval(10).note === note4.note) {
                         this.type = 'Minor Seventh'
                         this.symbol = 'm7'
                     }
                 }
-            } else if (root.getInterval(6).note === fifth.note) {
+            } else if (root.interval(6).note === fifth.note) {
                 if (note4 == null) {
                     this.type = 'Diminished'
                     this.symbol = 'dim'
                 } else {
-                    if (root.getInterval(9).note === note4.note) {
+                    if (root.interval(9).note === note4.note) {
                         this.type = 'Diminished Seventh'
                         this.symbol = 'dim7'
                     }
@@ -342,7 +342,7 @@ export class Chord {
     }
 
     tranpose(interval) {
-        const newChordNotes = this.attributes[Chord.NOTES].map(n => n.getInterval(interval))
+        const newChordNotes = this.attributes[Chord.NOTES].map(n => n.interval(interval))
         return new Chord({
             root: newChordNotes[Chord.ROOT],
             fifth: newChordNotes[Chord.FIFTH],

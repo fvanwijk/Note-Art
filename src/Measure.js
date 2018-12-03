@@ -117,13 +117,13 @@ export class Measure {
         // console.log(this.notes)
         const newData = this.notes.map((n) => {
             if (n instanceof Note) {
-                console.log(n, n.toString(), interval, n.getInterval(interval).toString())
-                // console.log(piano.note('c5e').getInterval(-1))
-                return n.getInterval(interval)
+                console.log(n, n.toString(), interval, n.interval(interval).toString())
+                // console.log(piano.note('c5e').interval(-1))
+                return n.interval(interval)
             } else if (n instanceof Chord)
                 return n.tranpose(interval)
             else if (isArray(n))
-                return n.map(note => note.getInterval(interval))
+                return n.map(note => note.interval(interval))
         })
         // console.log(newData)
         return new Measure(newData)

@@ -23,8 +23,8 @@ export class MusicalPattern {
         this.pattern = pattern
         this._notes = []
         for (let j of pattern)
-            this._notes.push(this.tonic.getInterval(j))
-        this._notes.push(this.tonic.getInterval(12))
+            this._notes.push(this.tonic.interval(j))
+        this._notes.push(this.tonic.interval(12))
     }
 
     /**
@@ -47,14 +47,14 @@ export class MusicalPattern {
     /**
      * returns the interval inside the Scale
      * for example - if the Scale is a C Major,
-     * than getInterval(1) wiil return D.
+     * than interval(1) wiil return D.
      * @param {number} interval
      */
-    getInterval(interval) {
+    interval(interval) {
         let counter = 0
         for (let i = 0; i < interval; i++)
             counter += this.pattern[i]
-        return this.tonic.getInterval(counter)
+        return this.tonic.interval(counter)
     }
 
     /**
