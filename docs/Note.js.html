@@ -1,4 +1,76 @@
-import {
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Note-Art Source: Note.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Note-Art</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Chord.html">Chord</a></li><li><a href="DiatonicScale.html">DiatonicScale</a></li><li><a href="Key.html">Key</a></li><li><a href="Measure.html">Measure</a></li><li><a href="MusicalPattern.html">MusicalPattern</a></li><li><a href="Note.html">Note</a></li><li><a href="Rhythm.html">Rhythm</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: Note.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import {
     firstToUpper,
     notes,
     circle_of_fourths,
@@ -27,11 +99,11 @@ export class Note {
     constructor(attributes = {}) {
         const note = attributes.note ? firstToUpper(attributes.note) : "A"
         this.attributes = []
-        this.attributes[Note.NOTE] = !notes["#"].includes(note) && !notes.b.includes(note) ? "A" : note
+        this.attributes[Note.NOTE] = !notes["#"].includes(note) &amp;&amp; !notes.b.includes(note) ? "A" : note
         this.attributes[Note.OCTAVE] =
-            attributes.octave >= 0 && attributes.octave <= 7 ? attributes.octave : 3
+            attributes.octave >= 0 &amp;&amp; attributes.octave &lt;= 7 ? attributes.octave : 3
         this.attributes[Note.DURATION] = attributes.duration || "q"
-        this.attributes[Note.INSTRUMENT] = attributes.instrument ? firstToUpper(attributes.instrument) : "Piano"
+        this.attributes[Note.INSTRUMENT] = firstToUpper(attributes.instrument) || "Piano"
         this.attributes[Note.FAMILY] = circle_of_fourths.includes(this.note) ? "b" : "#"
         this.attributes[Note.INDEX] = notes[this.family].indexOf(this.note)
         this.attributes[Note.FREQUENCY] = this.calculateFrequency()
@@ -244,7 +316,7 @@ export class Note {
             })
         }
         const oct_diff =
-            this.index + interval < 0 ? Math.floor((this.index + interval) / 12) : 0
+            this.index + interval &lt; 0 ? Math.floor((this.index + interval) / 12) : 0
         return new Note({
             note: notes[this.family][Math.abs((this.index + (12 + (interval % 12))) % 12)],
             octave: parseInt(this.octave) + parseInt(oct_diff),
@@ -286,7 +358,7 @@ export class Note {
      * @param {Note} note
      */
     isEqual(note) {
-        if (this.note === note.note && this.octave === note.octave) {
+        if (this.note === note.note &amp;&amp; this.octave === note.octave) {
             return true
         }
         return false
@@ -320,4 +392,142 @@ export class Note {
             )
         }
     }
-}
+}</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+	Music
+
+
+	<span class="copyright">
+	Copyright © 2018-2019 Musitelligence inc.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Mon Dec 3rd 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

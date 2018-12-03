@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Note-Art Index</title>
+	<title>Note-Art Source: Piece.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,51 +60,145 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	
-	
+		<h1 class="page-title">Source: Piece.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import {
+    Note,
+    Rhythm,
+    Sequence,
+    Measure,
+    Chord,
+    note_durations
+} from '.'
+import {
+    isArray,
+} from 'util'
+
+export class Piece {
+    constructor(bpm = 100, time_signature = [4, 4], data = []) {
+        this.attributes = []
+        this.attributes[Piece.RHYTHM] = new Rhythm(bpm, time_signature)
+        this.attributes[Piece.DATA] = data
+        this.attributes[Piece.NOTES] = this.init()
+        this.attributes[Piece.DURATION] = this.calculateDuration()
+    }
+
+    static get RHYTHM() {
+        return 0
+    }
+
+    static get DATA() {
+        return 1
+    }
+
+    static get NOTES() {
+        return 2
+    }
+
+    static get DURATION() {
+        return 3
+    }
 
 
+    init() {
+        let notes = []
+        this.data.forEach((i) => {
+            if (i instanceof Measure || i instanceof Sequence) {
+                i.getData().forEach((j) => {
+                    notes.push(j)
+                })
+            } else {
+                notes.push(i)
+            }
+        })
+        return notes
+    }
 
+    get rhythm() {
+        return this.attributes[Piece.RHYTHM]
+    }
 
+    get data() {
+        return this.attributes[Piece.DATA]
+    }
 
+    set data(data) {
+        this.attributes[Piece.DATA] = data
+        this.notes = this.init()
+    }
 
+    /**
+     * get the duration
+     */
+    get duration() {
+        return this.attributes[Piece.DURATION]
+    }
 
+    get time_signature() {
+        return this.rhythm.time_signature
+    }
 
+    get bpm() {
+        return this.attributes[Piece.RHYTHM].bpm
+    }
 
+    set bpm(bpm) {
+        this.rhythm.updateBPM(bpm)
+        this.attributes[Piece.DURATION] = this.calculateDuration()
+    }
 
+    get notes() {
+        return this.attributes[Piece.NOTES]
+    }
 
-	
-	
+    calculateDuration() {
+        let duration = 0
+        this.notes.forEach(data => {
+            if (data instanceof Note || data instanceof Chord) {
+                duration += 60 / this.bpm * note_durations[data.duration] * this.rhythm.beats_per_measure
+            } else if (isArray(data)) {
+                let min_duration = note_durations[data.duration]
+                data.forEach((note) => {
+                    min_duration = min_duration &lt; note_durations[note.duration] ? min_duration : note_durations[note.duration]
+                })
+                duration += 60 / this.bpm * min_duration * this.rhythm.beats_per_measure
+            }
+        })
+        return duration
+    }
 
+    play() {
+        this.rhythm.addNotes(this.notes)
+        this.rhythm.toggle()
+    }
 
+    pushToData(new_data) {
+        this.data.push(new_data)
+    }
 
+    toString() {
+        let string = 'Piece: { '
+        for (let i of this.data)
+            string += i.toString() + ', '
+        string += '} '
+        return string
+    }
 
-
-    <section class="readme-section">
-        <article><h6><em>A Work in progress</em></h6><h1>Note-Art JS</h1><ul>
-<li><p>Music is a highly versatile art that originates in nature, and has been taken up by mankind as a way of expression and also as an art.<br>Now, it's going to be taken up by machines as well.</p>
-</li>
-<li><p>This project aims to create a library that implements all of music theory(in all it's forms) in code,<br>can be used to play sounds of most musical instruments.<br>It will then be used to create multiple tools for people to practice, learn, enjoy and compose.<br>it will also be used to attempt development of different projects combining music and AI.</p>
-</li>
-</ul>
-<blockquote>
-<p>“Everything is determined … by forces over which we have no<br>control. It is determined for the insects as well as for the star.<br>Human beings, vegetables, or cosmic dust – we all dance to a<br>mysterious tune, intoned in the distance by an invisible piper.”<br>– Albert Einstein</p>
-</blockquote>
-<h2>Table of Contents</h2><details><br><!-- toc --><br><br>- <a href="#Installation">Installation</a><br>- <a href="#Basic">Basic Use</a><br><br><!-- tocstop --><br></details>
-
-<h2>Installation</h2><pre class="prettyprint source lang-bash"><code># go to project folder
-npm install note-art</code></pre><h2>Basic Use</h2><hr>
-<blockquote>
-<p>Musical Project By Sean Dvir</p>
-</blockquote></article>
-    </section>
-
-
+    transpose(interval) {
+        const newData = this.data.map(i => i.transpose(interval))
+        return new Piece(this.bpm, this.time_signature, newData)
+    }
+}</pre>
+    </article>
+</section>
 
 
 
@@ -115,10 +209,6 @@ npm install note-art</code></pre><h2>Basic Use</h2><hr>
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

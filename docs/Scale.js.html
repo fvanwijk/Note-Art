@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Note-Art Index</title>
+	<title>Note-Art Source: Scale.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,51 +60,58 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	
-	
+		<h1 class="page-title">Source: Scale.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import {Note, Chord, MusicalPattern} from '.'
 
+/**
+ * represents a Diatonic Scale(a scale that consists of 7 notes),
+ * @extends MusicalPattern
+ */
+export class DiatonicScale extends MusicalPattern {
+    /**
+     *
+     * @param {Note/String} tonic Root of the Scale
+     * @param {Array} pattern Intervals for the other notes(from the tonic).
+     */
+    constructor(tonic, pattern) {
+        super(tonic, pattern)
+        this.chords = []
+        this.show   = false
+        for (let i in this.notes.slice(0, 7))
+            this.chords.push(new Chord({
+                root:  this.notes[i],
+                third: this.notes[(parseInt(i) + 2) % 7],
+                fifth: this.notes[(parseInt(i) + 4) % 7],
+            }))
+    }
 
+    /**
+     * returns the x chord of the scale.
+     * @param {number} chord Chord Number
+     */
+    getChord(chord) {
+        return this.chords[chord - 1] != undefined ? this.chords[chord - 1] : null
+    }
 
-
-
-
-
-
-
-
-
-	
-	
-
-
-
-
-
-    <section class="readme-section">
-        <article><h6><em>A Work in progress</em></h6><h1>Note-Art JS</h1><ul>
-<li><p>Music is a highly versatile art that originates in nature, and has been taken up by mankind as a way of expression and also as an art.<br>Now, it's going to be taken up by machines as well.</p>
-</li>
-<li><p>This project aims to create a library that implements all of music theory(in all it's forms) in code,<br>can be used to play sounds of most musical instruments.<br>It will then be used to create multiple tools for people to practice, learn, enjoy and compose.<br>it will also be used to attempt development of different projects combining music and AI.</p>
-</li>
-</ul>
-<blockquote>
-<p>“Everything is determined … by forces over which we have no<br>control. It is determined for the insects as well as for the star.<br>Human beings, vegetables, or cosmic dust – we all dance to a<br>mysterious tune, intoned in the distance by an invisible piper.”<br>– Albert Einstein</p>
-</blockquote>
-<h2>Table of Contents</h2><details><br><!-- toc --><br><br>- <a href="#Installation">Installation</a><br>- <a href="#Basic">Basic Use</a><br><br><!-- tocstop --><br></details>
-
-<h2>Installation</h2><pre class="prettyprint source lang-bash"><code># go to project folder
-npm install note-art</code></pre><h2>Basic Use</h2><hr>
-<blockquote>
-<p>Musical Project By Sean Dvir</p>
-</blockquote></article>
-    </section>
-
-
+    /**
+     * returns array with all the chords in the scale.
+     */
+    getChords() {
+        return this.chords
+    }
+}
+</pre>
+    </article>
+</section>
 
 
 
@@ -115,10 +122,6 @@ npm install note-art</code></pre><h2>Basic Use</h2><hr>
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>
