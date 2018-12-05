@@ -7,6 +7,9 @@ import {
 import {
     isArray,
 } from 'util'
+import {
+    getMinDuration
+} from './Addons';
 
 let rhythm
 
@@ -33,12 +36,14 @@ export class Rhythm {
      * @param {Array} time_signature the number of notes per measure as an array [number_of_notes, type_of_notes]
      */
     constructor(bpm, time_signature) {
+        this.time_signature = time_signature
+
         this.data = null // the Sounds that will be played
         this.dataKeeper = null //will hold the music to reload it when it reaches the end
         this.reload_data = false //variable to dictate whether data needs to be reloaded or not
 
         this.metronome_sound = new Howl({
-            src: ['/static/Media/Metronome/1.wav'],
+            src: ['https://note-art.azurewebsites.net/Metronome/1.wav'],
         })
 
         // for cross browser compatibility
@@ -107,23 +112,11 @@ export class Rhythm {
      * @param {Array/Note/Chord} data
      */
     scheduleNoteHelper(data) {
-        if (data instanceof Note || data instanceof Chord) {
-            this.data_with_time.push({
-                sounds: [data],
-                time: this.overall_time,
-            })
-            this.overall_time += 60 / this.bpm * note_durations[data.duration] * this.beats_per_measure
-        } else if (isArray(data)) {
-            let min_duration = note_durations[data.duration]
-            data.forEach((note) => {
-                min_duration = min_duration < note_durations[note.duration] ? min_duration : note_durations[note.duration]
-            })
-            this.data_with_time.push({
-                sounds: data,
-                time: this.overall_time,
-            })
-            this.overall_time += 60 / this.bpm * min_duration * this.beats_per_measure
-        }
+        this.data_with_time.push({
+            sounds: data,
+            time: this.overall_time,
+        })
+        this.overall_time += 60 / this.bpm * getMinDuration(data) * this.beats_per_measure
     }
 
     playSounds() {

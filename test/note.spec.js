@@ -40,17 +40,17 @@ describe('Note Object', () => {
             expect(c.interval(13)).to.eql(c_stub['13'])
         })
         it('checks the note Db', function () {
-            const db      = new Note({note:'db'})
+            const db      = new Note({note:'db', octave:5})
             const db_stub = {
-                '-13': piano.note('c2q'),
-                '-12': piano.note('db2q'),
-                '-11': piano.note('d2q'),
-                '-1':  piano.note('c3q'),
-                '0':   piano.note('db3q'),
-                '1':   piano.note('d3q'),
-                '11':  piano.note('c4q'),
-                '12':  piano.note('db4q'),
-                '13':  piano.note('d4q'),
+                '-13': piano.note('c4q'),
+                '-12': piano.note('db4q'),
+                '-11': piano.note('d4q'),
+                '-1':  piano.note('c5q'),
+                '0':   piano.note('db5q'),
+                '1':   piano.note('d5q'),
+                '11':  piano.note('c6q'),
+                '12':  piano.note('db6q'),
+                '13':  piano.note('d6q'),
             }
             expect(db.interval(-13)).to.eql(db_stub['-13'])
             expect(db.interval(-12)).to.eql(db_stub['-12'])
@@ -133,9 +133,13 @@ describe('Note Object', () => {
             expect(b.interval(11)).to.eql(b_stub['11'])
             expect(b.interval(12)).to.eql(b_stub['12'])
             expect(b.interval(13)).to.eql(b_stub['13'])
+        })
+        it('Random interval tests', () => {
             expect(piano.note('b4e').interval(1).interval(-1)).to.eql(piano.note('b4e'))
             expect(piano.note('b4e').interval(1)).to.eql(piano.note('C5e'))
             expect(new Note({note: 'c',octave: 5,duration: 'e'}).interval(-1)).to.eql(new Note({note: 'b',octave: 4,duration: 'e'}))
+            expect(piano.note('e5e').interval(12)).to.eql(piano.note('e6e'))
+            expect(piano.note('d#5e').interval(12)).to.eql(piano.note('d#6e'))
         })
     })
 })

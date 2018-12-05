@@ -1,11 +1,12 @@
+import {
+    Measure
+} from "./Measure";
+
 export class Sequence {
-    constructor(data = []) {
+    constructor() {
         this.attributes = []
-        this.attributes[Sequence.MEASURES] = data
+        this.attributes[Sequence.MEASURES] = []
         this.attributes[Sequence.DURATION] = 0
-        this.data.forEach(meas => {
-            this.duration += meas.duration
-        })
     }
 
     static get MEASURES() {
@@ -16,11 +17,11 @@ export class Sequence {
         return 1
     }
 
-    get data() {
+    get measures() {
         return this.attributes[Sequence.MEASURES]
     }
 
-    set data(data) {
+    set measures(data) {
         this.attributes[Sequence.MEASURES] = data
     }
 
@@ -40,24 +41,37 @@ export class Sequence {
 
     getData() {
         const data = []
-        this.data.forEach((i) => {
+        this.measures.forEach((i) => {
             i.notes.forEach(j => data.push(j))
         })
         return data
     }
 
-    addMeasure(measure) {
-        this.data.push(measure)
+    /**
+     * Push measure to sequence
+     * @param {Measure} measure 
+     */
+    push(measure) {
+        if (measure instanceof Measure)
+            this.measures.push(measure)
+    }
+
+    /**
+     * Pushes a group of measures
+     * @param {Array} measures array if measures
+     */
+    pushMeasures(measures) {
+        measures.forEach(measure => this.measures.push(measure))
     }
 
     transpose(interval) {
-        const newMeasures = this.data.map(m => m.transpose(interval))
+        const newMeasures = this.measures.map(m => m.transpose(interval))
         return new Sequence(newMeasures)
     }
 
     toString() {
         let string = 'Sequence: { '
-        this.data.forEach((i) => {
+        this.measures.forEach((i) => {
             string += i.toString() + ', '
         })
         string += '}'

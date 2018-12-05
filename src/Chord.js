@@ -226,7 +226,6 @@ export class Chord {
      * @readonly
      */
     get root() {
-        console.log(this.attributes[Chord.NOTES])
         return this.attributes[Chord.NOTES][Chord.ROOT]
     }
 
