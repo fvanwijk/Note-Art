@@ -269,6 +269,10 @@ export class Chord {
         return this.root.note + this.symbol
     }
 
+    get notes() {
+        return this.attributes[Chord.NOTES]
+    }
+
     // TODO ADD A HALPING METHOD THAT WILL PLAY MELODICALLY IN INTERVAL BY CORRECT ORDER 
     /**
      * play all the notes in the chord as a melody.
@@ -332,10 +336,10 @@ export class Chord {
 
     newDuration(duration) {
         return new Chord({
-            root: this.root,
-            third: this.third,
-            fifth: this.fifth,
-            note4: this.note4,
+            root: this.root.changeDuration(duration),
+            third: this.third ? this.third.changeDuration(duration) : null,
+            fifth: this.fifth.changeDuration(duration),
+            note4: this.note4 ? this.note4.changeDuration(duration) : null,
             duration: duration
         })
     }

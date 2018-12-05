@@ -133,6 +133,14 @@ export class Piece {
         })
     }
 
+    popMeasure(){
+        this.data.splice(this.data.length-1, 1)
+    }
+
+    removeMeasure(measure_index){
+        this.data.splice(measure_index, 1)
+    }
+
     calculateDuration() {
         let duration = 0
         this.ListsOfNotesList.forEach(data => duration += 60 / this.bpm * getMinDuration(data) * this.rhythm.beats_per_measure)
@@ -140,7 +148,7 @@ export class Piece {
     }
 
     play() {
-        this.rhythm.addNotes(this.ListsOfNotesList)
+        this.rhythm.addMeasures(this.data)
         this.rhythm.toggle()
     }
 

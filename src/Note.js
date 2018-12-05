@@ -224,6 +224,14 @@ export class Note {
     }
 
     /**
+     * returns a clone of the note(new instance).
+     * @type {Note}
+     */
+    changeDuration(duration) {
+        return new Note({note: this.note, octave: this.octave, instrument: this.instrument, duration: duration})
+    }
+
+    /**
      * Gets interval size (Number) and returns a new instance of a note
      * which is calculated by the musical interval formula.
      * @example

@@ -80,7 +80,7 @@ export class Measure {
     }
 
     isFull() {
-        return this.duration == this.max_duration
+        return this.duration == this.max_duration && this.max_duration != 0
     }
 
     /**
@@ -107,7 +107,7 @@ export class Measure {
     push(notes = []) {
         let verified_notes = []
         notes.forEach((note) => {
-            if (note.duration <= this.duration_left || this.max_duration === 0)
+            if (note_durations[note.duration] <= this.duration_left || this.max_duration === 0)
                 verified_notes.push(note)
         })
         this.notes.push(verified_notes)
@@ -120,6 +120,10 @@ export class Measure {
      */
     pushNotes(note_arrays) {
         note_arrays.forEach(note_array => this.push(note_array))
+    }
+
+    pop(){
+        this.notes.splice(this.notes.length-1, 1)
     }
 
     updateDuration() {

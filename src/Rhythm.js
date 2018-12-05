@@ -121,6 +121,7 @@ export class Rhythm {
 
     playSounds() {
         for (const i of this.data_with_time[this.next_note].sounds) {
+            console.log(i.toString())
             i.play()
         }
     }
@@ -200,6 +201,15 @@ export class Rhythm {
 
     addNotes(data) {
         this.data = data
+    }
+
+    addMeasures(measures){
+        this.data = []
+        measures.forEach(measure => {
+            measure.notes.forEach(notes => {
+                this.data.push(notes)
+            })
+        })
     }
 
     toggleMetronome() {
