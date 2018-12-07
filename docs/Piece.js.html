@@ -81,15 +81,18 @@
 import {
     isArray,
 } from 'util'
+import {
+    getMinDuration, twoDigitFormat
+} from './Addons';
 
 export class Piece {
-    constructor(bpm = 100, time_signature = [4, 4], data = []) {
+    constructor(bpm = 100, time_signature = [4, 4]) {
         this.attributes = []
         this.attributes[Piece.RHYTHM] = new Rhythm(bpm, time_signature)
-        this.attributes[Piece.DATA] = data
+        this.attributes[Piece.DATA] = []
         this.attributes[Piece.CURRENT_MEASURE] = 0
-        this.attributes[Piece.NOTES] = this.init()
-        this.attributes[Piece.DURATION] = this.calculateDuration()
+        this.attributes[Piece.LISTS_OF_NOTES_LIST] = []
+        this.attributes[Piece.DURATION] = 0
     }
 
     static get RHYTHM() {
@@ -100,7 +103,7 @@ export class Piece {
         return 1
     }
 
-    static get NOTES() {
+    static get LISTS_OF_NOTES_LIST() {
         return 2
     }
 
@@ -110,26 +113,6 @@ export class Piece {
 
     static get CURRENT_MEASURE() {
         return 4
-    }
-
-    init() {
-        let notes = []
-        this.data.forEach((i) => {
-            if (i instanceof Measure) {
-                i.getData().forEach((j) => {
-                    notes.push(j)
-                })
-                this.current_measure++
-            } else if (i instanceof Sequence) {
-                i.getData().forEach((j) => {
-                    notes.push(j)
-                })
-                this.current_measure += i.data.length
-            } else {
-                notes.push(i)
-            }
-        })
-        return notes
     }
 
     get rhythm() {
@@ -149,7 +132,11 @@ export class Piece {
      * get the duration
      */
     get duration() {
-        return this.attributes[Piece.DURATION]
+        return twoDigitFormat(this.attributes[Piece.DURATION])
+    }
+
+    set duration(dur) {
+        this.attributes[Piece.DURATION] = dur
     }
 
     get time_signature() {
@@ -162,11 +149,19 @@ export class Piece {
 
     set bpm(bpm) {
         this.rhythm.updateBPM(bpm)
-        this.attributes[Piece.DURATION] = this.calculateDuration()
+        this.duration = this.calculateDuration()
     }
 
-    get notes() {
-        return this.attributes[Piece.NOTES]
+    get time_signature(){
+        return this.attributes[Piece.RHYTHM].time_signature
+    }
+
+    get ListsOfNotesList() {
+        return this.attributes[Piece.LISTS_OF_NOTES_LIST]
+    }
+
+    set ListsOfNotesList(list) {
+        this.attributes[Piece.LISTS_OF_NOTES_LIST] = list
     }
 
     get current_measure() {
@@ -177,29 +172,56 @@ export class Piece {
         this.attributes[Piece.CURRENT_MEASURE] = curr
     }
 
+    pushMeasure(measure) {
+        if (measure instanceof Measure) {
+            this.data.push(measure)
+            measure.notes.forEach((notes) => {
+                this.ListsOfNotesList.push(notes)
+                this.duration += 60 / this.bpm * getMinDuration(notes) * this.rhythm.beats_per_measure
+            })
+        }
+    }
+
+    pushMeasures(measure_list) {
+        measure_list.forEach(measure => this.pushMeasure(measure))
+    }
+
+    pushSequence(sequence) {
+        sequence.measures.forEach(measure => this.pushMeasure(measure))
+    }
+
+    pushSequences(sequences) {
+        sequences.forEach((sequence) => {
+            sequence.measures.forEach(measure => this.pushMeasure(measure))
+        })
+    }
+
+    pushMandS(data){
+        data.forEach((d) => {
+            if(d instanceof Measure)
+                this.pushMeasure(d)
+            else if(d instanceof Sequence)
+                this.pushSequence(d)
+        })
+    }
+
+    popMeasure(){
+        this.data.splice(this.data.length-1, 1)
+    }
+
+    removeMeasure(measure_index){
+        this.data.splice(measure_index, 1)
+    }
+
     calculateDuration() {
         let duration = 0
-        this.notes.forEach(data => {
-            if (data instanceof Note || data instanceof Chord) {
-                duration += 60 / this.bpm * note_durations[data.duration] * this.rhythm.beats_per_measure
-            } else if (isArray(data)) {
-                let min_duration = note_durations[data.duration]
-                data.forEach((note) => {
-                    min_duration = min_duration &lt; note_durations[note.duration] ? min_duration : note_durations[note.duration]
-                })
-                duration += 60 / this.bpm * min_duration * this.rhythm.beats_per_measure
-            }
-        })
+        this.ListsOfNotesList.forEach(data => duration += 60 / this.bpm * getMinDuration(data) * this.rhythm.beats_per_measure)
         return duration
     }
 
     play() {
-        this.rhythm.addNotes(this.notes)
+        this.rhythm.addMeasures(this.data)
         this.rhythm.toggle()
-    }
-
-    pushToData(new_data) {
-        this.data.push(new_data)
     }
 
     isPlaying() {
@@ -215,8 +237,12 @@ export class Piece {
     }
 
     transpose(interval) {
+        console.log(this.data)
         const newData = this.data.map(i => i.transpose(interval))
-        return new Piece(this.bpm, this.time_signature, newData)
+        console.log(this.bpm, this.rhythm.time_signature)
+        const new_piece = new Piece(this.bpm, this.time_signature)
+        new_piece.pushMeasures(newData)
+        return new_piece
     }
 }</pre>
     </article>
@@ -265,7 +291,7 @@ export class Piece {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Mon Dec 3rd 2018
+		on Wed Dec 5th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

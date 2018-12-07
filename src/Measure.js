@@ -1,14 +1,5 @@
-import {
-    Note,
-    Chord,
-    note_durations
-} from '.'
-import {
-    isArray,
-} from 'util'
-import {
-    getMinDuration
-} from './Addons'
+import { Note, Chord, note_durations } from '.'
+import { getMinDuration } from './Addons'
 
 /**
  * Measure - represents a single measure as part of a musical piece.
@@ -27,30 +18,20 @@ export class Measure {
         this.attributes[Measure.DURATION] = 0
     }
 
-    static get NOTES() {
-        return 0
-    }
+    static get NOTES() { return 0 }
 
-    static get DURATION() {
-        return 1
-    }
+    static get DURATION() { return 1 }
 
-    static get MAX_DURATION() {
-        return 2
-    }
+    static get MAX_DURATION() { return 2 }
     /**
      * Array of all the notes in the measure
      */
-    get notes() {
-        return this.attributes[Measure.NOTES]
-    }
+    get notes() { return this.attributes[Measure.NOTES] }
 
     /**
      * Assign new notes to measure
      */
-    set notes(notes) {
-        this.attributes[Measure.NOTES] = notes
-    }
+    set notes(notes) { this.attributes[Measure.NOTES] = notes }
 
     /**
      * Returns a new array with the same notes.
@@ -64,24 +45,16 @@ export class Measure {
     /**
      * get the duration
      */
-    get duration() {
-        return this.attributes[Measure.DURATION]
-    }
+    get duration() { return this.attributes[Measure.DURATION] }
 
     /**
      * set the duration
      */
-    set duration(duration) {
-        this.attributes[Measure.DURATION] = duration
-    }
+    set duration(duration) { this.attributes[Measure.DURATION] = duration }
 
-    get max_duration() {
-        return this.attributes[Measure.MAX_DURATION]
-    }
+    get max_duration() { return this.attributes[Measure.MAX_DURATION] }
 
-    isFull() {
-        return this.duration == this.max_duration && this.max_duration != 0
-    }
+    isFull() { return this.duration == this.max_duration && this.max_duration != 0 }
 
     /**
      * Change notes somewhere inside a measure
@@ -96,9 +69,7 @@ export class Measure {
         return new_measure
     }
 
-    get duration_left() {
-        return this.max_duration - this.duration
-    }
+    get duration_left() { return this.max_duration - this.duration }
 
     /**
      * Push notes to a measure
@@ -118,13 +89,9 @@ export class Measure {
      * Add notes to the end of the measure
      * @param {Array} note_arrays array of arrays of notes
      */
-    pushNotes(note_arrays) {
-        note_arrays.forEach(note_array => this.push(note_array))
-    }
+    pushNotes(note_arrays) { note_arrays.forEach(note_array => this.push(note_array)) }
 
-    pop(){
-        this.notes.splice(this.notes.length-1, 1)
-    }
+    pop() { this.notes.splice(this.notes.length - 1, 1) }
 
     updateDuration() {
         let valid = 0

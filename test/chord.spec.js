@@ -15,7 +15,7 @@ const Cmaj = new Chord({
     fifth: piano.note('g3q'),
     note4: piano.note('bb3q')
 })
-describe('Chord class', () => {
+describe('Chord', () => {
     describe('checks different ctor inputs', () => {
         it('calls ctor with Note type objects', () => {
             expect(new Chord({

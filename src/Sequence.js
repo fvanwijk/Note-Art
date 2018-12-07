@@ -9,35 +9,23 @@ export class Sequence {
         this.attributes[Sequence.DURATION] = 0
     }
 
-    static get MEASURES() {
-        return 0
-    }
+    static get MEASURES() { return 0 }
 
-    static get DURATION() {
-        return 1
-    }
+    static get DURATION() { return 1 }
 
-    get measures() {
-        return this.attributes[Sequence.MEASURES]
-    }
+    get measures() { return this.attributes[Sequence.MEASURES] }
 
-    set measures(data) {
-        this.attributes[Sequence.MEASURES] = data
-    }
+    set measures(data) { this.attributes[Sequence.MEASURES] = data }
 
     /**
      * get the duration
      */
-    get duration() {
-        return this.attributes[Sequence.DURATION]
-    }
+    get duration() { return this.attributes[Sequence.DURATION] }
 
     /**
      * set the duration
      */
-    set duration(duration) {
-        this.attributes[Sequence.DURATION] = duration
-    }
+    set duration(duration) { this.attributes[Sequence.DURATION] = duration }
 
     getData() {
         const data = []
@@ -60,9 +48,7 @@ export class Sequence {
      * Pushes a group of measures
      * @param {Array} measures array if measures
      */
-    pushMeasures(measures) {
-        measures.forEach(measure => this.measures.push(measure))
-    }
+    pushMeasures(measures) { measures.forEach(measure => this.measures.push(measure)) }
 
     transpose(interval) {
         const newMeasures = this.measures.map(m => m.transpose(interval))

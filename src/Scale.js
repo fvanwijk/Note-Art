@@ -1,4 +1,4 @@
-import {Note, Chord, MusicalPattern} from '.'
+import { Note, Chord, MusicalPattern } from '.'
 
 /**
  * represents a Diatonic Scale(a scale that consists of 7 notes),
@@ -13,10 +13,10 @@ export class DiatonicScale extends MusicalPattern {
     constructor(tonic, pattern) {
         super(tonic, pattern)
         this.chords = []
-        this.show   = false
+        this.show = false
         for (let i in this.notes.slice(0, 7))
             this.chords.push(new Chord({
-                root:  this.notes[i],
+                root: this.notes[i],
                 third: this.notes[(parseInt(i) + 2) % 7],
                 fifth: this.notes[(parseInt(i) + 4) % 7],
             }))

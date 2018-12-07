@@ -157,7 +157,8 @@ export class Note {
      * @type {Note}
      */
     changeDuration(duration) {
-        return new Note({ ...this, duration })
+        const { note, octave, instrument } = this
+        return new Note({ note, octave, duration, instrument })
     }
 
     /**

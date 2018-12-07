@@ -1,15 +1,4 @@
-import {
-    Note,
-    Chord,
-    note_durations
-} from '.'
-
-import {
-    isArray,
-} from 'util'
-import {
-    getMinDuration
-} from './Addons';
+import { getMinDuration } from './Addons'
 
 let rhythm
 
@@ -203,7 +192,7 @@ export class Rhythm {
         this.data = data
     }
 
-    addMeasures(measures){
+    addMeasures(measures) {
         this.data = []
         measures.forEach(measure => {
             measure.notes.forEach(notes => {

@@ -1,7 +1,4 @@
-import {
-    Note,
-    piano
-} from '.'
+import { Note } from '.'
 
 /**
  * Represents a musical pattern.
@@ -30,9 +27,7 @@ export class MusicalPattern {
     /**
      * returns array that contains all the notes in the pattern.
      */
-    get notes() {
-        return this._notes
-    }
+    get notes() { return this._notes }
 
     /**
      * returns a string of all the notes in the pattern

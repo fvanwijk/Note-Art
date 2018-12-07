@@ -1,17 +1,5 @@
-import {
-    Note,
-    Rhythm,
-    Sequence,
-    Measure,
-    Chord,
-    note_durations
-} from '.'
-import {
-    isArray,
-} from 'util'
-import {
-    getMinDuration, twoDigitFormat
-} from './Addons';
+import { Rhythm, Sequence, Measure, } from '.'
+import { getMinDuration, twoDigitFormat } from './Addons';
 
 export class Piece {
     constructor(bpm = 100, time_signature = [4, 4]) {
@@ -80,7 +68,7 @@ export class Piece {
         this.duration = this.calculateDuration()
     }
 
-    get time_signature(){
+    get time_signature() {
         return this.attributes[Piece.RHYTHM].time_signature
     }
 
@@ -124,20 +112,20 @@ export class Piece {
         })
     }
 
-    pushMandS(data){
+    pushMandS(data) {
         data.forEach((d) => {
-            if(d instanceof Measure)
+            if (d instanceof Measure)
                 this.pushMeasure(d)
-            else if(d instanceof Sequence)
+            else if (d instanceof Sequence)
                 this.pushSequence(d)
         })
     }
 
-    popMeasure(){
-        this.data.splice(this.data.length-1, 1)
+    popMeasure() {
+        this.data.splice(this.data.length - 1, 1)
     }
 
-    removeMeasure(measure_index){
+    removeMeasure(measure_index) {
         this.data.splice(measure_index, 1)
     }
 

@@ -5,10 +5,15 @@ import {
     Chord,
     Note,
     Piano,
-    Measure
+    Measure,
+    all_diatonic_scales
 } from "../src"
 
 const piano = new Piano()
+
+describe('omg', ()=>{
+    console.log(all_diatonic_scales)
+})
 
 // describe.skip("Measure class", () => {
 //     const meas = new Measure([

@@ -1,11 +1,15 @@
 const path = require('path')
-
+const libraryName = 'note-art'
+const outputFile = libraryName + '.js'
 module.exports = {
-  entry: './src/index.js',
+  entry: __dirname + '/src/index.js',
   mode: 'development',
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: outputFile,
+    path: path.resolve(__dirname, 'dist'),
+    library: libraryName,
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     rules: [{
@@ -14,7 +18,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env'],
+            plugins: ["@babel/plugin-proposal-object-rest-spread"]
           }
         }
       },

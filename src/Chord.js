@@ -4,15 +4,17 @@ import {
 
 /**
  * represents a Chord.
+ * @class
  */
 export class Chord {
     /**
-     *
-     * @param {Note} root
-     * @param {Note} third
-     * @param {Note} fifth
-     * @param {Note} note4(optional)
-     * @param duration
+     * Creates a Chord instance.
+     * @param {Object} attributes gets
+     * {Note/String} root
+     * {Note/String} third
+     * {Note/String} fifth
+     * {Note/String} note4(optional)
+     * {String}      duration 
      */
     constructor(attributes = {}) {
         this.attributes = []
