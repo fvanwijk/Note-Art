@@ -17,7 +17,7 @@
 
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top ">
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
 <div class="container">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="index.html">Note-Art</a>
@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Chord.html">Chord</a></li><li><a href="DiatonicScale.html">DiatonicScale</a></li><li><a href="Key.html">Key</a></li><li><a href="Measure.html">Measure</a></li><li><a href="MusicalPattern.html">MusicalPattern</a></li><li><a href="Note.html">Note</a></li><li><a href="Rhythm.html">Rhythm</a></li>
+					<li><a href="Chord.html">Chord</a></li><li><a href="DiatonicScale.html">DiatonicScale</a></li><li><a href="Key.html">Key</a></li><li><a href="Measure.html">Measure</a></li><li><a href="MusicalPattern.html">MusicalPattern</a></li><li><a href="Note.html">Note</a></li><li><a href="NotesHash.html">NotesHash</a></li><li><a href="Rhythm.html">Rhythm</a></li>
 				</ul>
 			</li>
 			
@@ -64,626 +64,6 @@
 	
 		<div id="main">
 			
-
-	<h1 class="page-title">Class: Rhythm</h1>
-<section>
-
-<header>
-    
-        <h2>
-        Rhythm
-        </h2>
-        
-            <div class="class-description"><p>Creates a rhythm instance which holds bpm and time signature information.</p></div>
-        
-    
-</header>
-
-
-<article>
-    <div class="container-overview">
-    
-        
-<hr>
-<dt>
-    <h4 class="name" id="Rhythm"><span class="type-signature"></span>new Rhythm()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="RhythmOld.js.html">RhythmOld.js</a>,
-				 <a href="RhythmOld.js.html#sunlight-1-line-27">line 27</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-            
-<hr>
-<dt>
-    <h4 class="name" id=".getRhythm"><span class="type-signature">&lt;static> </span>getRhythm(bpm, time_signature)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>returns a instance of rhythm to avoid creating more than one(a singleton)</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bpm</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    80
-                
-                </td>
-            
-
-            <td class="description last"><p>Speed of the rhythm in beats per minute</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>time_signature</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the number of notes per measure as an array [number_of_notes, type_of_notes]</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-89">line 89</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="nextNote"><span class="type-signature"></span>nextNote()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Advances to the next note and updates the beat</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-132">line 132</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="scheduleNote"><span class="type-signature"></span>scheduleNote()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Schedual a note to be played at a specific time</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-100">line 100</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="scheduleNoteHelper"><span class="type-signature"></span>scheduleNoteHelper(data)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Helps the SchedualNote check what kind of data is dealt with at the moment and handles it.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array/Note/Chord</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-114">line 114</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        </dl>
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
 
 	<h1 class="page-title">Class: Rhythm</h1>
 <section>
@@ -835,7 +215,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-32">line 32</a>
+				 <a href="Rhythm.js.html#sunlight-1-line-21">line 21</a>
 			</li>
 		</ul>
 	</dd>
@@ -1027,7 +407,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-89">line 89</a>
+				 <a href="Rhythm.js.html#sunlight-1-line-78">line 78</a>
 			</li>
 		</ul>
 	</dd>
@@ -1115,7 +495,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-132">line 132</a>
+				 <a href="Rhythm.js.html#sunlight-1-line-121">line 121</a>
 			</li>
 		</ul>
 	</dd>
@@ -1203,7 +583,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-100">line 100</a>
+				 <a href="Rhythm.js.html#sunlight-1-line-89">line 89</a>
 			</li>
 		</ul>
 	</dd>
@@ -1341,7 +721,627 @@
 		<ul class="dummy">
 			<li>
 				<a href="Rhythm.js.html">Rhythm.js</a>,
-				 <a href="Rhythm.js.html#sunlight-1-line-114">line 114</a>
+				 <a href="Rhythm.js.html#sunlight-1-line-103">line 103</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Class: Rhythm</h1>
+<section>
+
+<header>
+    
+        <h2>
+        Rhythm
+        </h2>
+        
+            <div class="class-description"><p>Creates a rhythm instance which holds bpm and time signature information.</p></div>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="Rhythm"><span class="type-signature"></span>new Rhythm()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="RhythmOld.js.html">RhythmOld.js</a>,
+				 <a href="RhythmOld.js.html#sunlight-1-line-23">line 23</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".getRhythm"><span class="type-signature">&lt;static> </span>getRhythm(bpm, time_signature)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>returns a instance of rhythm to avoid creating more than one(a singleton)</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>bpm</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    80
+                
+                </td>
+            
+
+            <td class="description last"><p>Speed of the rhythm in beats per minute</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>time_signature</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>the number of notes per measure as an array [number_of_notes, type_of_notes]</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="Rhythm.js.html">Rhythm.js</a>,
+				 <a href="Rhythm.js.html#sunlight-1-line-78">line 78</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="nextNote"><span class="type-signature"></span>nextNote()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Advances to the next note and updates the beat</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="Rhythm.js.html">Rhythm.js</a>,
+				 <a href="Rhythm.js.html#sunlight-1-line-121">line 121</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="scheduleNote"><span class="type-signature"></span>scheduleNote()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Schedual a note to be played at a specific time</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="Rhythm.js.html">Rhythm.js</a>,
+				 <a href="Rhythm.js.html#sunlight-1-line-89">line 89</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="scheduleNoteHelper"><span class="type-signature"></span>scheduleNoteHelper(data)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Helps the SchedualNote check what kind of data is dealt with at the moment and handles it.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array/Note/Chord</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="Rhythm.js.html">Rhythm.js</a>,
+				 <a href="Rhythm.js.html#sunlight-1-line-103">line 103</a>
 			</li>
 		</ul>
 	</dd>
@@ -1426,7 +1426,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Wed Dec 5th 2018
+		on Fri Dec 7th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
