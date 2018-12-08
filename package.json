@@ -20,6 +20,7 @@
   ],
   "author": "Sean Dvir Seanitzel <seandvir12@gmail.com>",
   "license": "ISC",
+  "repository": "https://github.com/Seanitzel/Note-Art",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
