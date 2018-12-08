@@ -1,5 +1,5 @@
 {
-  "name": "note-art",
+  "name": "ohmygoodness",
   "version": "1.0.0",
   "description": "Music programming package",
   "main": "./dist/note-art.js",
@@ -33,10 +33,10 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "webpack": "^4.26.0",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "ink-docstrap": "^1.3.2"
   },
   "dependencies": {
-    "howler": "^2.0.15",
-    "ink-docstrap": "^1.3.2"
+    "howler": "^2.0.15"
   }
 }
