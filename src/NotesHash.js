@@ -33,7 +33,6 @@ export class NotesHash {
      */
     set(note) {
         const key = this.getKey(note)
-        console.log(key)
         if (!this.sounds.has(key)) {
             const filePath = `https://note-art.azurewebsites.net/${note.instrument}/FF_${this.fileNoteLetter(note)}${note.octave}.mp3`
             this.sounds.set(key, new Howl({ src: [filePath] }))

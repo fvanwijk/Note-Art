@@ -109,10 +109,8 @@ export class Rhythm {
     }
 
     playSounds() {
-        for (const i of this.data_with_time[this.next_note].sounds) {
-            console.log(i.toString())
-            i.play()
-        }
+        for (const i of this.data_with_time[this.next_note].sounds) 
+            i.play()   
     }
 
     /**

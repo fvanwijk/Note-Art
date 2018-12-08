@@ -153,9 +153,7 @@ export class Piece {
     }
 
     transpose(interval) {
-        console.log(this.data)
         const newData = this.data.map(i => i.transpose(interval))
-        console.log(this.bpm, this.rhythm.time_signature)
         const new_piece = new Piece(this.bpm, this.time_signature)
         new_piece.pushMeasures(newData)
         return new_piece

@@ -74,7 +74,6 @@ export class Rhythm {
     scheduleNoteHelper(data) {
         if (data instanceof Note || data instanceof Chord) {
             this.next_note = this.data.length ? note_durations[data.duration] : null
-            console.log(data.toString())
             data.play()
         } else if (Array.isArray(data)) {
             let min_duration = note_durations[data.duration],
@@ -87,7 +86,6 @@ export class Rhythm {
             }
             for (const n of playNow)
                 n.play()
-            console.log(curr_notes_playing)
             this.next_note = this.data.length ? min_duration : null
         }
 
