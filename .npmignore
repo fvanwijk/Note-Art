@@ -5,6 +5,7 @@ test/
 docs/
 .idea/
 .vscode/
+.vscode/settings.json
 
 ### Linux ###
 *~

@@ -1,6 +1,6 @@
 {
-  "name": "ohmygoodness",
-  "version": "1.0.0",
+  "name": "note-art",
+  "version": "0.0.0",
   "description": "Music programming package",
   "main": "./dist/note-art.js",
   "scripts": {
