@@ -11,7 +11,7 @@
     "scripts": {
         "dev": "webpack --mode development",
         "build": "webpack --mode production",
-        "prepare": "npm run build",
+        "prepare": "",
         "test": "mocha \"test/**/*.spec.js\"",
         "coverage": "cross-env NODE_ENV=test nyc npm run test -- --reporter landing --cache",
         "report": "nyc report --root coverage --format html",
