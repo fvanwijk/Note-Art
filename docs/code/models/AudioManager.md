@@ -8,91 +8,33 @@ title: AudioManager
 
 ## AudioManager
 A singleton class which handles all file requests,
-uses <a href="https://tonejs.github.io/">ToneJS</a> as the audio library.
+uses <a href="https://tonejs.github.io/">ToneJS</a>.
 
 **Kind**: global class  
 
 * [AudioManager](#AudioManager)
-    * [new exports.AudioManager()](#new_AudioManager_new)
-    * _instance_
-        * [.setNote(pn)](#AudioManager+setNote)
-        * [.getPlayer(playableNote)](#AudioManager+getPlayer) ⇒ <code>Tone.Player</code>
-        * [.setSound(fliepath, key)](#AudioManager+setSound)
-        * [.playSound(key)](#AudioManager+playSound)
-    * _static_
-        * [.normalizeSet(pitchClass, classSet)](#AudioManager.normalizeSet) ⇒ <code>String</code>
-        * [.getKey(note)](#AudioManager.getKey)
+    * [.getAudioMap()](#AudioManager.getAudioMap) ⇒ <code>Tone.Players</code>
+    * [.resumeContext()](#AudioManager.resumeContext)
+    * [.toMaster(audioContext)](#AudioManager.toMaster)
 
-<a name="new_AudioManager_new"></a>
+<a name="AudioManager.getAudioMap"></a>
 
-### new exports.AudioManager()
-Should never be called
+### AudioManager.getAudioMap() ⇒ <code>Tone.Players</code>
+**Kind**: static method of [<code>AudioManager</code>](#AudioManager)  
+<a name="AudioManager.resumeContext"></a>
 
-<a name="AudioManager+setNote"></a>
+### AudioManager.resumeContext()
+Resumes audio context.
 
-### audioManager.setNote(pn)
-Add a note to the map.
+**Kind**: static method of [<code>AudioManager</code>](#AudioManager)  
+<a name="AudioManager.toMaster"></a>
 
-**Kind**: instance method of [<code>AudioManager</code>](#AudioManager)  
-
-| Param | Type |
-| --- | --- |
-| pn | <code>PlayableNote</code> | 
-
-<a name="AudioManager+getPlayer"></a>
-
-### audioManager.getPlayer(playableNote) ⇒ <code>Tone.Player</code>
-Get a note's Player.
-
-**Kind**: instance method of [<code>AudioManager</code>](#AudioManager)  
-
-| Param | Type |
-| --- | --- |
-| playableNote | <code>PlayableNote</code> | 
-
-<a name="AudioManager+setSound"></a>
-
-### audioManager.setSound(fliepath, key)
-Create a player for some sound.
-
-**Kind**: instance method of [<code>AudioManager</code>](#AudioManager)  
-
-| Param |
-| --- |
-| fliepath | 
-| key | 
-
-<a name="AudioManager+playSound"></a>
-
-### audioManager.playSound(key)
-Play sound by player key.
-
-**Kind**: instance method of [<code>AudioManager</code>](#AudioManager)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| key | <code>String</code> | Player key. |
-
-<a name="AudioManager.normalizeSet"></a>
-
-### AudioManager.normalizeSet(pitchClass, classSet) ⇒ <code>String</code>
-Trnasforms notes of type '#' to 'b' in order to access the file's name.
+### AudioManager.toMaster(audioContext)
+Connects audio node to master.
 
 **Kind**: static method of [<code>AudioManager</code>](#AudioManager)  
 
 | Param |
 | --- |
-| pitchClass | 
-| classSet | 
-
-<a name="AudioManager.getKey"></a>
-
-### AudioManager.getKey(note)
-Calculates a specific note's key.
-
-**Kind**: static method of [<code>AudioManager</code>](#AudioManager)  
-
-| Param | Type |
-| --- | --- |
-| note | <code>PlayableNote</code> | 
+| audioContext | 
 

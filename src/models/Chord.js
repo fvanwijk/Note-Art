@@ -1,11 +1,15 @@
 import {MissingInformation, DataNotFound, InvalidInput} from '../Exceptions'
-import {buildString, findQuery}                         from '../addons/GlobalFunctions'
-import {MusicTheoryStructures as mts}                   from '../resources/MusicTheoryStructures'
-import {Note}                                           from '../models/Note'
+import {buildString, findQuery} from '../addons/GlobalFunctions'
+import {MusicTheoryStructures as mts} from '../resources/MusicTheoryStructures'
+import {Note} from '../models/Note'
 
 /**
  * @classdesc Represents a musical Chord - a number of notes with a specific
  * pattern which can be played together to form a harmonic sound.
+ * @param {Object} attributes Object that contains some of the following keys:
+ * @param {Note} [attributes.root] - chords root note
+ * @param {String} [attributes.name] - the chords name(e.g 'M')
+ * @param {Array} [attributes.pattern] - the pattern to build the chord by pitch intervals(e.g [3, 7]
  * @throws {MissingInformation} When not provided with root and either name or pattern
  * @throws {DataNotFound} When called with name and the name cant be found in the
  * @example
@@ -14,20 +18,15 @@ import {Note}                                           from '../models/Note'
  * const C_min_by_name = new Chord({root:c, name: 'm'}) // new C minor chord.
  */
 export class Chord {
-    /**
-     * <b>Either Name or Pattern must be provided!</b>
-     * @param {Object} attributes Object that contains some of the following keys:
-     * @param {Note} [attributes.root] - chords root note
-     * @param {String} [attributes.name] - the chords name(e.g 'M')
-     * @param {Array} [attributes.pattern] - the pattern to build the chord by pitch intervals(e.g [3, 7]
-     */
     constructor({root, name, pattern}) {
-        this.info   = findQuery(name, pattern, mts.Chords)
+        this.info = findQuery(name, pattern, mts.Chords)
         this._notes = []
         this.pushNotes(root)
     }
 
     /**
+     * Creates notes and adds them to the chord.
+     * @throws InvalidInput
      * @private
      */
     pushNotes(root) {
@@ -57,7 +56,7 @@ export class Chord {
     }
 
     /**
-     * Marking of the chord.
+     * Chord type representation.
      * @type {String}
      */
     get name() {
@@ -80,6 +79,10 @@ export class Chord {
         return JSON.parse(this.info['Pattern'])
     }
 
+    /**
+     * Whether chord is major, minor or neither.
+     * @return {string|undefined}
+     */
     get type() {
         if (this.pitchIntervals.includes(4)) {
             return 'major'
@@ -112,7 +115,7 @@ export class Chord {
     // }
 
     /**
-     * Get a string of the chord's name.
+     * Returns a string of the chord's name.
      * @returns {String}
      */
     toString() {

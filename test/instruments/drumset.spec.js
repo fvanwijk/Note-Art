@@ -6,8 +6,8 @@ describe('Drums', () => {
         drumset = new Drumset()
     })
     describe('Creating a drumset', () => {
-        it('should init and have sounds in the paths array', () => {
-            expect(drumset.paths.size).to.be.greaterThan(0)
+        it('should init and have sounds in the players array', () => {
+            expect(drumset.players.size).to.be.greaterThan(0)
         })
     })
 

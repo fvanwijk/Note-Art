@@ -1,6 +1,6 @@
 {
     "name": "note-art",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "description": "Music programming package",
     "main": "./dist/note-art.js",
     "homepage": "https://github.com/Seanitzel/Note-Art/tree/develop",
@@ -50,7 +50,7 @@
         "nyc": "^13.3.0",
         "sinon": "^7.3.0",
         "sinon-chai": "^3.3.0",
-        "vuepress": "^1.0.0-alpha.46",
+        "vuepress": "^1.0.0-alpha.47",
         "webpack": "^4.29.6",
         "webpack-cli": "^3.3.0"
     },

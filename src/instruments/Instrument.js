@@ -1,25 +1,35 @@
-import {app}                           from '../'
-import {Note}                          from '../models/Note'
-import {firstToUpper}                  from '../addons/GlobalFunctions'
+import {app} from '../'
+import {Note} from '../models/Note'
+import {firstToUpper} from '../addons/GlobalFunctions'
 import {notesInRange, validateRawNote} from '../utilities/MusicalAddons'
-import {MusicTheoryStructures as mts}  from '../resources/MusicTheoryStructures'
+import {MusicTheoryStructures as mts} from '../resources/MusicTheoryStructures'
 
 
 /**
  * @abstract
+ * Has all the methods any instrument will need.
  */
 export class Instrument {
+    /**
+     * Creates a map for the instruments notes, uses Tone's Players class to play.
+     */
     constructor() {
         this.notes = new Map()
-        this.paths = app.get('audio-manager').getAudioMap()
+        this.players = app.get('audio-manager').getAudioMap()
     }
 
+    /**
+     * The server to load the audio files for the instrument from,
+     * can be overridden.
+     * @return {string}
+     */
     static get server() {
         return 'http://localhost:8000/'
     }
 
     /**
      * Should be called from any child class's constructor.
+     * Initializes all the notes and audio players for the instrument.
      * @param base
      * @param range
      */
@@ -27,7 +37,7 @@ export class Instrument {
         Object.entries(notesInRange(base, range)).forEach(([key, {pitchClass, octave}]) => {
             const note = new Note(pitchClass, octave)
             this.notes.set(key, note)
-            this.setPath(key, note)
+            this.setPlayer(key, note)
         })
     }
 
@@ -41,7 +51,7 @@ export class Instrument {
     static normalizeSet(pitchClass, classSet) {
         if (classSet === '#') {
             const index = mts.sharpClassNotes.indexOf(pitchClass)
-            pitchClass  = mts.flatClassNotes[index]
+            pitchClass = mts.flatClassNotes[index]
         }
         const index = mts.flatClassNotes.indexOf(pitchClass)
         return mts.flatClassNotes[index]
@@ -55,65 +65,70 @@ export class Instrument {
         return `${Instrument.normalizeSet(pitchClass, classSet)}${octave}`
     }
 
-    static getAudioMap() {
-        return app.get('audio-manager').getAudioMap()
-    }
-
+    /**
+     * Turns a string representing a note to upper case.
+     * @param noteStr
+     * @return {String}
+     */
     static normalizeNoteStr(noteStr) {
         return firstToUpper(noteStr)
     }
 
     /**
-     * Must be implemented by child class.
-     * @param instrument
-     * @param note
+     * Generates player for some audio.
+     * @param {String} fileName
      */
-    generatePath(note) {
+    generatePath(fileName) {
         throw new Error('Not implemented for this instrument yet')
     }
 
     /**
-     * Add a note to the map.
+     * Add a player for a note.
      * @param key
      * @param {Note} note
      */
-    setPath(key, note) {
-        this.paths.set(key, this.generatePath(note))
-        app.get('audio-manager').toMaster(this.paths.get(key))
+    setPlayer(key, note) {
+        this.players.set(key, this.generatePath(note))
+        app.get('audio-manager').toMaster(this.players.get(key))
     }
 
     /**
-     * Get a note's Player.
+     * Get a note's player.
      * @param {String} note
      * @returns {Tone.Player}
      */
     getPlayer(note) {
-        return this.paths.get(Instrument.getKey(this.notes.get(note)))
+        return this.players.get(Instrument.getKey(this.notes.get(note)))
     }
 
     /**
      * Gets a string consisting of:
-     * 1. The note
+     * 1. The pitch CLASS
      * 2. The octave
      * @param {String} note
      * @returns {Note}
      * @example
-     * const C = piano.note('c34n') // C is now a Note object
-     * C.play()                    // Plays the note
+     * const C = someInstrument.note('c3') // C is now a Note object
+     * console.log(C.interval(2))         // D3
      */
     note(note) {
         return this.notes.get(Instrument.normalizeNoteStr(note))
     }
 
+    /**
+     * Whether an instrument has a note.
+     * @param {string} note
+     * @return {boolean}
+     */
     hasNote(note) {
         validateRawNote(note)
         return this.notes.has(Instrument.normalizeNoteStr(note))
     }
 
     /**
-     * Play sound by player key.
-     * @param note
-     * @param duration
+     * Play sound, optionally for a duration.
+     * @param {string} note
+     * @param {string} [duration=false]
      */
     play(note, duration = false) {
         if (this.hasNote(note)) {
@@ -124,6 +139,11 @@ export class Instrument {
         }
     }
 
+    /**
+     * Syncs a note to the transport with a duration.
+     * @param {string} note
+     * @param {string} duration
+     */
     syncAndPlay(note, duration) {
         if (this.hasNote(note)) {
             this.getPlayer(Instrument.normalizeNoteStr(note)).sync().start().stop(duration)

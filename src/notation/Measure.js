@@ -5,13 +5,9 @@ import {Note}                                         from '../models/Note'
 
 /**
  * Represents a single measure as part of a musical piece in musical notation.
- * @class
+ * @param {Number} [maxDuration=0] Max duration of the measure(decided by time signature)
  */
 export class Measure {
-    /**
-     * Creates a Measure instance
-     * @param {Number} [maxDuration=0] Max duration of the measure(decided by time signature)
-     */
     constructor(maxDuration = 64) {
         const attributes       = {}
         attributes.notes       = [{notes: new Set(), duration: '4n'}]

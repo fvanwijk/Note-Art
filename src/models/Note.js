@@ -8,21 +8,23 @@ import {noteToObject}                 from '../'
 /**
  * @class
  * @classdesc Represents an abstract musical note.
+ * @param pitchClass
+ * @param octave
  * @example
- * const n = new Note({note: 'c', octave: 3, duration: '4n', instrument: 'Piano'})
+ * const n = new Note('c', 3)
  */
 export class Note extends PitchClass {
-    /**
-     * new Note
-     * @param pitchClass
-     * @param octave
-     */
     constructor(pitchClass, octave) {
         super(pitchClass)
         PianoOctaveRule.validatePossible(octave)
         this.attributes.octave = octave
     }
 
+    /**
+     * Builds a Note instance from string representing a note.
+     * @param {string} noteString
+     * @return {Note}
+     */
     static builder(noteString) {
         const {pitchClass, octave} = noteToObject(noteString)
         return new Note(pitchClass, octave)
@@ -31,7 +33,7 @@ export class Note extends PitchClass {
     /**
      * Generates a new pitch from frequency.
      * @param frequency
-     * @returns {Pitch}
+     * @returns {Note}
      */
     static fromFrequency(frequency) {
         const n          = realNumberFromFreq(frequency)
@@ -42,7 +44,7 @@ export class Note extends PitchClass {
     }
 
     /**
-     * Returns the octave of the pitch.
+     * Returns the octave of the note.
      * @type {String}
      */
     get octave() { return this.attributes.octave }
